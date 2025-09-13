@@ -1,0 +1,10 @@
+
+@if(bqError(); as error) {
+    <app-bq-api-error [error]="error"></app-bq-api-error>
+} @else if (loading()){
+    <div class="progress-spinner-container d-flex justify-content-center align-items-center w-100 h-100">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+}
+
+<figure [id]="sankeyId()" class="m-0 report-diagram" [style.display]="loading() || bqError() ? 'none': 'block'"></figure>

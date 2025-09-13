@@ -1,0 +1,18 @@
+
+
+@if (title) {
+	<h1 mat-dialog-title>
+		{{ title }}
+	</h1>
+}
+
+@if (message) {
+	<div mat-dialog-content>
+		<p>{{ message }}</p>
+	</div>	
+}
+
+<div mat-dialog-actions>
+	<button mat-flat-button class="daxa" (click)="onConfirm()">Confirm</button>
+	<button mat-button (click)="onDismiss()">Cancel</button>
+</div>

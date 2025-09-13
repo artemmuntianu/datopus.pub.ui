@@ -1,0 +1,46 @@
+:host {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.mat-mdc-card {
+    &.daxa-card {
+        &.settings-card {
+            .mat-mdc-card-content {
+                ul {
+                    margin-bottom: 10px;
+
+                    li {
+                        margin: {
+                            right: 15px;
+                            bottom: 15px;
+                        }
+
+                        .mat-mdc-button {
+                            border: 0;
+                            height: auto;
+                            min-width: auto;
+                            min-height: auto;
+                            padding: 11px 28px;
+                            font-weight: normal;
+                            color: var(--blackColor);
+                            border: 1px solid #c2cada;
+                            background-color: transparent;
+
+                            &:hover, &.active {
+                                color: var(--whiteColor);
+                                border-color: var(--daxaColor);
+                                background-color: var(--daxaColor);
+                            }
+                        }
+
+                        &:last-child {
+                            margin-right: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

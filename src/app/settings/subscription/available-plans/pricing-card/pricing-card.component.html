@@ -1,0 +1,115 @@
+@let planCard = subPlanCard();
+
+<mat-card class="pricing-card" [class.selected]="selected()">
+    <mat-card-header class="d-flex justify-content-between align-items-start">
+        <div>
+            <h3 class="price">
+                {{ flatAmount() | cents | currency: currency().toUpperCase() }}
+                <span class="price-sub">/month</span>
+            </h3>
+            @if (hasExtraCharge()) {
+                <h4
+                    class="extra-price"
+                    [matTooltip]="'MTU - Monthly Tracked Users 10,000 MTU = $5'"
+                >
+                    @if (extraCharge(); as extraCharge) {
+                        {{
+                            extraCharge | cents
+                                | currency: currency().toUpperCase() : 'symbol' : '1.0-6'
+                        }}
+                        <span class="extra-mtu">
+                            / MTU
+                            <mat-icon class="extra-mtu-tooltip-icon">help_outline</mat-icon>
+                        </span>
+                    }
+                </h4>
+            } @else {
+                <h4>No MTU limits</h4>
+            }
+        </div>
+        <span class="premium-text">{{ planCard.name }}</span>
+    </mat-card-header>
+
+    <mat-card-content>
+        <section style="height: 150px" class="d-flex flex-column justify-content-between">
+            <p class="description-text">{{ planCard.description }}</p>
+            <div style="height: 65px; margin-top: 10px; margin-bottom: 10px">
+                <h6 class="datasources-title">Datasources</h6>
+                <div class="d-flex flex-column gap-1 datasources-list">
+                    @for (source of planCard.datasources; track source) {
+                        <div class="d-flex align-items-center g-3">
+                            <img [src]="source.icon" width="16" height="16" />
+                            {{ source.name }}
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <mat-divider class="mb-20"></mat-divider>
+
+        <h6>
+            <strong>
+                {{ planCard.featuresTitle.prefix }}
+                <span class="text-d">{{ planCard.featuresTitle.plan }}</span>
+                {{ planCard.featuresTitle.postfix }}
+            </strong>
+        </h6>
+        <ul class="list-unstyled">
+            @for (feature of planCard.features; track feature) {
+                <li class="d-flex align-items-center g-5">
+                    <mat-icon class="feature-item-icon">
+                        {{ feature?.icon ?? 'check' }}
+                    </mat-icon>
+                    {{ feature.name }}
+                </li>
+            }
+        </ul>
+    </mat-card-content>
+
+    <mat-card-actions
+        class="text-center d-flex flex-column align-items-center justify-content-center subscribe-actions"
+    >
+        @switch (currentPlanCardAction()) {
+            @case (PlanCardAction.Manage) {
+                <button
+                    mat-flat-button
+                    class="daxa choose-plan-button"
+                    (click)="handlePlanActionClick()"
+                >
+                    Manage
+                </button>
+            }
+            @case (PlanCardAction.Subscribe) {
+                <button
+                    mat-flat-button
+                    class="daxa choose-plan-button"
+                    (click)="handlePlanActionClick()"
+                >
+                    Subscribe
+                </button>
+            }
+            @case (PlanCardAction.ChangePlan) {
+                <button
+                    mat-flat-button
+                    class="daxa choose-plan-button"
+                    (click)="handlePlanActionClick()"
+                >
+                    Change plan
+                </button>
+            }
+            @case (PlanCardAction.BookDemo) {
+                <button
+                    mat-flat-button
+                    class="daxa choose-plan-button"
+                    (click)="handlePlanActionClick()"
+                >
+                    Book a demo
+                </button>
+            }
+        }
+        @if (isSelectedTrial()) {
+            <p class="text-muted mt-2">{{ trialPeriodDays() ?? 30 }}-day free trial</p>
+        }
+    </mat-card-actions>
+</mat-card>

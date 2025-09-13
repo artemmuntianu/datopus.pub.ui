@@ -1,0 +1,31 @@
+<div mat-dialog-title>
+    <h3 class="text-center">Email Change Verification</h3>
+</div>
+<div mat-dialog-content class="quick-home">
+    <h3 class="text-center">Almost there!</h3>
+    <h4 class="text-center">Next Steps:</h4>
+
+    <p class="text-center text-black">
+        To proceed, please visit your email inboxes and click on the
+        confirmation links sent to both your original and new email addresses.
+    </p>
+
+    <ol class="list-decimal">
+        <li class="text-black">
+            Confirm the Original Email:
+            <span class="text-decoration-underline">
+                {{ data.oldEmail }}
+            </span>
+        </li>
+        <li class="text-black">
+            Confirm the New Email:
+            <span class="text-decoration-underline">
+                {{ data.newEmail }}
+            </span>
+        </li>
+    </ol>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close] class="btn">Ok</button>
+</div>

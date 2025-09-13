@@ -1,0 +1,65 @@
+.wrapper {
+    display: table;
+    width: 60%;
+    margin-left: 20%;
+    border-collapse: separate;
+    border-spacing: 1vw 0;
+    padding-top: 5vh;
+}
+
+.mat-mdc-card {
+    &.daxa-card {
+        &.pricing-card {
+            display: table-cell;
+
+            .mat-mdc-card-header {
+                padding: 20px;
+                margin-bottom: 25px;
+                background: var(--daxaColor);
+
+                h5 {
+                    color: var(--whiteColor);
+                }
+
+                span {
+                    font-size: var(--fontSize);
+                    color: var(--whiteColor);
+                    margin-top: 7px;
+                }
+            }
+
+            .mat-mdc-card-content {
+                font-size: 16px;
+                line-height: 1.5em;
+
+                padding: {
+                    left: 20px;
+                    right: 20px;
+                    bottom: 20px;
+                }
+
+                .mat-mdc-button {
+                    width: 100%;
+                    height: auto;
+                    display: block;
+                    min-width: auto;
+                    min-height: auto;
+                    margin-top: 25px;
+                    border-radius: 4px;
+                    text-align: center;
+                    padding: 10px 30px;
+                    font-weight: normal;
+                    color: var(--blackColor);
+                    border: 1px solid #c2cada;
+                    transition: var(--transition);
+
+                    &:hover {
+                        color: var(--whiteColor);
+                        border-color: var(--daxaColor);
+                        background-color: var(--daxaColor);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+<div class="d-flex flex-column mt-4 pb-15 flex-grow-1">
+    <div class="d-flex g-10 flex-grow-1">
+        <div class="col-md-3 col-lg-3 col-3 bg-white">
+            <h4 class="text-center m-20">App Settings</h4>
+            <div class="d-flex flex-column g-5 p-10">
+                <app-sidebar-submenu-link [title]="'Connections'" route="/settings/app/connections" />
+            </div>
+            
+        </div>
+        <div class="col-md-9 col-lg-9 col-9 bg-white">
+            <router-outlet />
+        </div>
+    </div>
+</div>

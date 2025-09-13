@@ -1,0 +1,23 @@
+.code-card {
+    .mat-mdc-button {
+        padding: 0px 5px;
+        height: auto;
+        min-width: auto;
+        margin-left: 10px;
+        display: inline-block;
+        transition: var(--transition);
+
+        &:first-child {
+            margin-left: 0px;
+        }
+
+        &:hover {
+            color: var(--daxaColor) !important;
+        }
+
+        ::ng-deep span.mdc-button__label {
+            display: inline-flex;
+            padding-top: 5px;
+        }
+    }
+}

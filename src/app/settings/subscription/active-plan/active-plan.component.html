@@ -1,0 +1,96 @@
+<div class="container mt-20">
+    <div class="subscription-header text-white text-center rounded p-4 flex-grow-1">
+        <div class="d-flex justify-content-center pt-20">
+            <div class="subscription-dollar-logo-container">
+                <span class="material-symbols-outlined subscription-dollar-logo-icon">
+                    attach_money
+                </span>
+            </div>
+        </div>
+        <h5 class="mb-0 fw-normal">Your current plan is</h5>
+        <h2 class="mb-0">{{ currentSubName() }}</h2>
+        <p class="text-black">{{ currentPlan()?.description }}</p>
+        <div class="bg-white text-black p-20 rounded shadow-sm d-inline-flex flex-column align-items-start">
+            @if (hasActiveSub() && supportsMtu()) {
+            @if(currentCycle(); as cycle) {
+            <p class="mb-0 text-black">
+                <span class="fw-semibold">Cycle:</span>
+                {{ cycle.start | date }} to {{ cycle.end | date }} ({{
+                cycle.daysLeft
+                }}
+                days remaining)
+            </p>
+            }
+
+            @let usedAmount = mtuUsageAmount();
+            @let availableAmount = mtuAvailableCount();
+            @if (usedAmount !== null && availableAmount !== null) {
+            <p class="mb-0 text-black">
+                <span class="fw-semibold">Usage:</span>
+                Used
+                <span class="text-d">{{ usedAmount | number }} MTU</span>
+                out of
+                <span class="text-black fw-semibold">
+                    {{ availableAmount | number }} MTU
+                </span>
+                @if (isLimitExceeded()) {
+                <span class="text-warning" >(Limit Exceeded)</span>
+                }
+            </p>
+            }
+
+            <p class="text-muted">*Monthly free allocation resets at the end of the cycle.</p>
+            } @else {
+            @if (currentSubStatus(); as status) {
+            <span class="fs-18">
+                Status:
+                <span class="text-warning">{{ status | subStatus }}</span>
+            </span>
+            } @else {
+            <span>No usage details availabe yet.</span>
+            }
+            }
+        </div>
+    </div>
+
+    <div class="align-items-center mt-20">
+        <h5 class="features-title text-center fw-normal">Features included in your plan</h5>
+        @if (loadingData()) {
+        <div class="d-flex justify-content-center p-50 w-100 align-items-center">
+            <mat-progress-spinner mode="indeterminate" [diameter]="50"></mat-progress-spinner>
+        </div>
+        } @else {
+        <div class="grid-layout features-list">
+            @for (feature of aggregatedFeatures(); track feature) {
+            <mat-card class="features-card" appearance="outlined">
+                <mat-card-content>
+                    <div class="d-flex align-items-center g-5">
+                        <span class="material-symbols-outlined card-check-icon">check</span>
+                        {{ feature.description }}
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            }
+        </div>
+        }
+    </div>
+
+    <div class="mt-20 border-radius d-flex flex-column g-2">
+        <div class="mt-4 p-3 back-money-content border-radius">
+            <h6 class="back-money-title">30 Days Money-Back Guarantee</h6>
+            <p class="medium back-money-text">
+                If for any reason you feel that our product did not live up to your expectations or
+                you think that somehow our service did not meet your standards of excellence, we
+                offer a no-hassle 100% money back guarantee for 30 days. In other words, you can get
+                your money back for any purchase made within the past 30 days.
+            </p>
+        </div>
+        @if (
+        canCancelSubscription()
+        ) {
+        <button mat-button class="cancel-sub-button" (click)="cancelSubscription()">
+            Cancel subscription
+        </button>
+        }
+    </div>
+</div>

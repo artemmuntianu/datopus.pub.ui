@@ -1,0 +1,23 @@
+<!-- TODO: Think about projecting trigger template -->
+<button [disabled]="disabled()"
+        class="trigger-button"
+        (click)="toggle()"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin">
+    <i class="material-symbols-outlined">
+        {{ triggerName() == 'Add column' ? 'add_circle': 'remove_circle'}}
+    </i>
+    {{ triggerName() }}
+</button>
+<ng-template
+    cdkConnectedOverlay
+    (overlayOutsideClick)="close()"
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="isOpen()"
+    [cdkConnectedOverlayHasBackdrop]="false"
+    (detach)="close()"
+>
+    <div [@fadeInScale] (@fadeInScale.done)="animationFinished()">
+        <ng-content></ng-content>
+    </div>
+</ng-template>

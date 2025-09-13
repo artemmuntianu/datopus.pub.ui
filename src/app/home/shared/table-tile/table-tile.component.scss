@@ -1,0 +1,158 @@
+@use '@angular/material' as mat;
+@import './mixins.scss';
+
+.header-items-container {
+    gap: 5px;
+    padding: 5px;
+}
+
+.skeleton-header::ng-deep {
+    .mat-sort-header-content {
+        width: 100% !important;
+    }
+}
+
+:host::ng-deep {
+    .mat-mdc-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        .mat-mdc-card-header-text {
+            display: none;
+        }
+    }
+}
+:host {
+    display: block;
+    height: 100%;
+}
+
+.skeleton-row {
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    background: no-repeat #eff1f6;
+    border-radius: 4px;
+    width: 100%;
+    display: inline-block;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+}
+
+.skeleton-row::before {
+    background-image: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.6),
+        rgba(255, 255, 255, 0)
+    );
+    -webkit-animation: 2s ease-in-out infinite progress;
+    animation: 2s ease-in-out infinite progress;
+    background-size: 200px 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    content: '';
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.material-symbols-outlined {
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    overflow-x: auto;
+    border-top: 1px solid #e0e0e0;
+    @include typography-thin-scroll;
+}
+
+@keyframes progress {
+    0% {
+        transform: translate3d(-200px, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(calc(200px + 100vw), 0, 0);
+    }
+}
+
+.mat-mdc-row .mat-mdc-cell {
+    cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+    background-color: rgba(231, 239, 253, 0.7);
+}
+
+.selected-row {
+    transform: scale(1.01);
+    transition: transform 0.1s ease-in-out;
+}
+
+.selected-row .mat-mdc-cell {
+    background-color: rgba(231, 239, 253, 1) !important;
+}
+
+.mat-mdc-paginator::ng-deep {
+    padding-bottom: 5px;
+}
+
+@container tile-container (width > 0px) {
+    .mat-mdc-paginator::ng-deep {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .daxa-card {
+        padding: 0px;
+    }
+
+    mat-card-header {
+        display: none !important;
+    }
+}
+
+@container tile-container (max-height: 200px) {
+    .daxa-card {
+        padding: 0px !important;
+    }
+    .mat-mdc-paginator {
+        padding: 5px !important;
+
+        &::ng-deep {
+            .mat-mdc-paginator-navigation-previous,
+            .mat-mdc-paginator-navigation-next {
+                height: 30px !important;
+                width: 30px !important;
+                padding: 2.5px 0 0 0 !important;
+            }
+        }
+    }
+}
+
+@container tile-container (max-width: 300px) and (max-height: 200px) {
+    .mat-mdc-paginator {
+        &::ng-deep {
+            .mat-mdc-paginator-page-size-label {
+                display: none !important;
+            }
+        }
+    }
+}

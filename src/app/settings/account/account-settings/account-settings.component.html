@@ -1,0 +1,151 @@
+<form
+    class="account-settings-card"
+    [formGroup]="profileForm"
+    (submit)="saveProfile()"
+>
+    <h4>Profile</h4>
+    <p>Update your photo and personal details here.</p>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="mb-25">
+                <label class="main-label d-block lh-1 text-black">
+                    Full Name
+                </label>
+                <mat-form-field>
+                    <mat-label> Full Name </mat-label>
+                    <input matInput formControlName="fullName" />
+                </mat-form-field>
+                <div
+                    class="error text-danger"
+                    *ngIf="
+                        profileForm.get('fullName')!.hasError('required') &&
+                        profileForm.get('fullName')!.touched
+                    "
+                >
+                    Name is required.
+                </div>
+                <div
+                    class="error text-danger"
+                    *ngIf="
+                        profileForm.get('fullName')!.hasError('fullName') &&
+                        profileForm.get('fullName')!.touched
+                    "
+                >
+                    Please enter a valid name.
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="mb-25">
+                <label class="main-label d-block lh-1 text-black">
+                    Phone Number
+                </label>
+                <mat-form-field>
+                    <mat-label> Phone number </mat-label>
+                    <input
+                        matInput
+                        placeholder="+1 (555) 123-4567"
+                        formControlName="phone"
+                    />
+                </mat-form-field>
+                <div
+                    class="error text-danger"
+                    *ngIf="
+                        profileForm.get('phone')!.hasError('invalidPhone') &&
+                        profileForm.get('phone')!.touched
+                    "
+                >
+                    Please enter a valid phone.
+                </div>
+            </div>
+        </div>
+    </div>
+    <h4>Your Photo</h4>
+    <p>This will be displayed on your profile.</p>
+    <div class="d-flex mb-25 align-items-center profile-image-container">
+        <div class="profile-image-preview-container">
+            <button
+                *ngIf="userPhotoUrl !== userDefaultPhotoUrl"
+                class="delete-profile-image-button"
+                type="button"
+                mat-icon-button
+                (click)="deleteProfileImage()"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+            <img [src]="userPhotoUrl" class="profile-image" />
+        </div>
+        <file-upload
+            class="file-uploader w-100"
+            [control]="profilePhotoControl"
+        ></file-upload>
+    </div>
+    <h4>Social Profiles</h4>
+    <p></p>
+    <div class="row" formGroupName="socialProfiles">
+        <div class="col-sm-6 col-lg-4">
+            <div class="mb-25">
+                <mat-form-field>
+                    <mat-label> Facebook </mat-label>
+                    <input matInput formControlName="facebook" />
+                </mat-form-field>
+                <div
+                    class="error text-danger"
+                    *ngIf="
+                        profileForm.get('socialProfiles.facebook')?.invalid &&
+                        profileForm.get('socialProfiles.facebook')?.touched
+                    "
+                >
+                    Please enter a valid link.
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="mb-25">
+                <mat-form-field>
+                    <mat-label> X </mat-label>
+                    <input matInput formControlName="x" />
+                </mat-form-field>
+                <div
+                    class="error text-danger"
+                    *ngIf="
+                        profileForm.get('socialProfiles.x')?.invalid &&
+                        profileForm.get('socialProfiles.x')?.touched
+                    "
+                >
+                    Please enter a valid link.
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="mb-25">
+                <mat-form-field>
+                    <mat-label> LinkedIn </mat-label>
+                    <input matInput formControlName="linkedin" />
+                </mat-form-field>
+                <div
+                    class="error text-danger"
+                    *ngIf="
+                        profileForm.get('socialProfiles.linkedin')?.invalid &&
+                        profileForm.get('socialProfiles.linkedin')?.touched
+                    "
+                >
+                    Please enter a valid link.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="btn-box">
+        <button
+            mat-button
+            class="btn"
+            type="submit"
+            [disabled]="profileForm.invalid"
+        >
+            Update Profile
+        </button>
+        <button mat-button type="button" (click)="navigateBack()">
+            Cancel
+        </button>
+    </div>
+</form>

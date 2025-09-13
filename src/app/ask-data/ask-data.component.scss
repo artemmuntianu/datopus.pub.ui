@@ -1,0 +1,254 @@
+@use '@angular/material' as mat;
+
+:host {
+    border-radius: 10px;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    height: calc(100vh - 100px);
+}
+
+.page-content {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    flex-grow: 1;
+    width: 100%;
+
+    .content-area {
+        flex-grow: 1;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: -24px;
+        min-height: 0;
+    }
+
+    &.has-messages {
+        justify-content: space-between;
+
+        .content-area {
+            .messages {
+                padding: 1rem;
+            }
+        }
+    }
+
+    &:not(.has-messages) {
+        justify-content: center;
+        align-items: center;
+
+        .content-area {
+            flex-grow: 0;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .no-messages-header {
+            margin-bottom: 1rem;
+        }
+
+        .header {
+            font-size: 1.5rem;
+            color: #555;
+        }
+
+        .input-container-wrapper {
+            width: 80%;
+            max-width: 700px;
+        }
+    }
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.chat-container.has-messages {
+    justify-content: flex-start;
+}
+
+.header {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.messages {
+    container-name: ask-data-messages-container;
+    width: 100%; 
+    min-width: 80%;
+    max-width: 1000px;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    margin: 0 auto;
+    margin-bottom: 4rem;
+}
+
+.messages-wrapper {
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.messages div {
+    width: fit-content;
+    border-radius: 0.75rem;
+    word-wrap: break-word;
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 15px;
+}
+
+.user {
+    margin-left: auto;
+    margin-right: 0;
+    max-width: 70%;
+    background: #e9eef6;
+    align-self: flex-end;
+}
+
+.bot {
+    margin-right: auto;
+    margin-left: 0;
+    background: #d1e7dd;
+    align-self: flex-start;
+    max-width: 90% !important;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    min-height: 100px;
+    margin-bottom: 5px;
+    border-radius: 20px;
+    background-color: white;
+    border: 2px solid grey;
+
+    mat-form-field::ng-deep {
+        flex-grow: 1;
+
+        @include mat.form-field-overrides(
+            (
+                container-color: transparent,
+                disabled-container-color: transparent,
+                active-indicator-height: 0px,
+                focus-active-indicator-height: 0px
+            )
+        );
+        .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+            background-color: transparent !important;
+        }
+        .mat-mdc-form-field {
+            background: transparent !important;
+        }
+        .mat-mdc-text-field-wrapper {
+            border: none !important;
+            background-color: transparent !important;
+        }
+        .mat-mdc-text-field-wrapper:hover .mat-mdc-form-field-focus-overlay {
+            opacity: 0 !important;
+        }
+    }
+}
+
+.send-message-button {
+    align-self: flex-end;
+    margin-right: 10px;
+}
+
+.input-container-wrapper {
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-container input {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+::ng-deep .ask-data-table {
+    max-height: 500px;
+
+    .mat-mdc-table {
+        .mat-mdc-header-cell {
+            padding: 8px !important;
+
+            &:last-child {
+                ::ng-deep {
+                    .mat-sort-header-container {
+                        justify-content: right !important;
+                    }
+                }
+            }
+        }
+
+        .mat-mdc-cell {
+            padding: 8px !important;
+
+            &:last-child {
+                text-align: right !important;
+            }
+        }
+    }
+
+    .mat-mdc-paginator {
+        padding: {
+            top: 15px;
+            left: 20px;
+            right: 20px;
+        }
+    }
+}
+
+
+.messages-scrollbar::ng-deep {
+    .ng-scroll-content {
+        width: 100% !important;
+    }
+}
+
+.ask-data-table-tile::ng-deep {
+    
+    .mat-mdc-card {
+        .mat-mdc-card-header {
+            padding: 0 !important;
+            margin-bottom: 0 !important;
+        }
+        &.daxa-card {
+            padding: 0 !important;
+            border: 1px solid #e7effd !important;
+            &.dashboard-card,
+            &.table-tile-card {
+            
+                .mat-mdc-card-content {
+                    .actions {
+                        display: none;
+                    }
+                    height: 100% !important;
+                    margin: {
+                        left: 0px;
+                        right: 0px;
+                    }
+                }
+            }
+        }
+    }
+}

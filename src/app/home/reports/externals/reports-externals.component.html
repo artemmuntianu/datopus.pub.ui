@@ -1,0 +1,165 @@
+<div class="row">
+    <div *ngIf="isSidebarVisible" class="col-3">
+        <mat-card class="daxa-card sidebar-card border-radius bg-white border-none d-block">
+            <ng-container [ngSwitch]="user.orgType">
+                <ng-container *ngSwitchCase="'b2b'">
+                    <mat-card-header class="mb-10">
+                        <div class="mb-10 d-flex align-items-center justify-content-between">
+                            <mat-card-title>
+                                <h5 class="mb-0">
+                                    External Reports
+                                </h5>
+                            </mat-card-title>
+                            <button mat-button matTooltip="Add New" matTooltipPosition="above" (click)="showAddNewPopup()" class="d-mini">
+                                <i class="material-symbols-outlined">add</i>
+                            </button>
+                        </div>
+                        <mat-form-field>
+                            <mat-label>Organizations</mat-label>
+                            <mat-select (selectionChange)="onPartnerOrgChanged()" [(ngModel)]="selectedPartnerOrg">
+                                <mat-option *ngFor="let x of data.partnerOrgs" [value]="x">{{ x.name }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </mat-card-header>
+                </ng-container>
+                <ng-container *ngSwitchCase="'b2c'">
+                    <mat-card-header class="mb-0 d-flex align-items-center justify-content-between">
+                        <mat-card-title>
+                            <h5 class="mb-0">
+                                External Reports
+                            </h5>
+                        </mat-card-title>
+                        <button mat-button matTooltip="Add New" matTooltipPosition="above" (click)="showAddNewPopup()" class="d-mini">
+                            <i class="material-symbols-outlined">add</i>
+                        </button>
+                    </mat-card-header>
+                </ng-container>
+            </ng-container>
+            <mat-card-content>
+                <ul class="sidebar-list pl-0 list-unstyled">
+                    <li>
+                        <div *ngIf="user.orgType == 'b2b'">
+                            Unpublished
+                        </div>
+                        <div class="report-links">
+                            <a *ngFor="let x of reports.unpublished"
+                               (click)="selectedReport = x"
+                               [class.active]="selectedReport?.id == x.id"
+                               href="{{x.url}}"
+                               target="iframe"
+                               class="d-inline-block position-relative">
+                                <i *ngIf="x.icon" class="report-icon" [ngClass]="'icon-' + x.icon"></i>
+                                <div>{{x.title}}</div>
+                            </a>
+                        </div>
+                    </li>
+                    <li *ngIf="user.orgType == 'b2b'">
+                        <div>
+                            Published
+                        </div>
+                        <div class="report-links">
+                            <a *ngFor="let x of reports.published"
+                               (click)="selectedReport = x"
+                               [class.active]="selectedReport?.id == x.id"
+                               href="{{x.url}}"
+                               target="iframe"
+                               class="d-inline-block position-relative">
+                                <i *ngIf="x.icon" class="report-icon" [ngClass]="'icon-' + x.icon"></i>
+                                <div>{{x.title}}</div>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div [ngClass]="{'pl-0 col-9': isSidebarVisible}">
+        <mat-card class="daxa-card report-card border-radius bg-white border-none d-block p-0">
+            <div class="m-0 d-flex align-items-center justify-content-between">
+                <div class="m-10">{{selectedReport?.title}}</div>
+                <div class="buttons-list">
+                    <button mat-button (click)="toggleSidebar()" class="text-body">
+                        <ng-container [ngSwitch]="isSidebarVisible">
+                            <ng-container *ngSwitchCase="true">
+                                <i class="material-symbols-outlined">left_panel_close</i>&nbsp;Extended Mode
+                            </ng-container>
+                            <ng-container *ngSwitchCase="false">
+                                <i class="material-symbols-outlined">left_panel_open</i>&nbsp;Normal Mode
+                            </ng-container>
+                        </ng-container>
+                    </button>
+                    <button *ngIf="selectedReport" mat-button (click)="reloadIframe(iframe)" class="text-body">
+                        <i class="material-symbols-outlined">refresh</i>&nbsp;Reload
+                    </button>
+                    <button *ngIf="selectedReport" mat-button (click)="openReportInNewTab()" class="text-body">
+                        <i class="material-symbols-outlined">open_in_new</i>&nbsp;Open in New Tab
+                    </button>
+                    <button *ngIf="selectedReport && user.orgType == 'b2b'" mat-button (click)="togglePublish()" class="text-body">
+                        <ng-container [ngSwitch]="selectedReport.is_published">
+                            <ng-container *ngSwitchCase="true">
+                                <i class="material-symbols-outlined">scan_delete</i>&nbsp;Unpublish
+                            </ng-container>
+                            <ng-container *ngSwitchCase="false">
+                                <i class="material-symbols-outlined">upload_file</i>&nbsp;Publish
+                            </ng-container>
+                        </ng-container>
+                    </button>
+                </div>
+            </div>
+            <mat-card-content class="d-flex align-items-center justify-content-center">
+                <iframe #iframe name="iframe" class="border-none" [style.display]="selectedReport ? 'block' : 'none'"></iframe>
+                <button *ngIf="!selectedReport" mat-flat-button matTooltip="Add New" matTooltipPosition="above" (click)="showAddNewPopup()" id="add-new-report-big-btn" class="daxa">
+                    <div class="d-flex justify-content-center align-items-center g-5">
+                        <mat-icon>add</mat-icon>
+                        <span>Click to add new report</span>
+                    </div>
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<div class="add-new-report-popup" [class.active]="isAddNewReportPopupActive">
+    <div class="popup-dialog">
+        <mat-card class="daxa-card mb-25 border-radius bg-white border-none d-block">
+            <mat-card-header>
+                <mat-card-title>
+                    <h5 class="mb-0">
+                        Add New Report
+                    </h5>
+                </mat-card-title>
+                <mat-card-subtitle>
+                    <button mat-button (click)="isAddNewReportPopupActive = false">
+                        <i class="ri-close-fill"></i>
+                    </button>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field>
+                            <mat-label>
+                                Title
+                            </mat-label>
+                            <input matInput [(ngModel)]="addNewReportPopupFields['title']">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>
+                                URL
+                            </mat-label>
+                            <input matInput [(ngModel)]="addNewReportPopupFields['url']" placeholder="https://">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="btn-box">
+                    <button mat-button (click)="isAddNewReportPopupActive = false">
+                        Cancel
+                    </button>
+                    <button mat-button (click)="onAddNewReportClick()">
+                        Create
+                    </button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

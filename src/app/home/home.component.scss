@@ -1,0 +1,76 @@
+.home-container {
+    padding: 20px;
+
+    .daxa-card {
+        height: 100%;
+
+        mat-card-header {
+            padding: 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        mat-card-content {
+            padding: 10px;
+            font-size: 18px;
+
+            a {
+                color: var(--text-color);
+                text-decoration: none;
+                transition: var(--transition);
+
+                &:hover {
+                    color: var(--daxaColor);
+                }
+            }
+
+            .material-symbols-outlined {
+                font-size: 20px;
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 30px;
+                height: 30px;
+                margin-right: 10px;
+                z-index: 1;
+
+                &.icon-bg-blue {
+                    &::before {
+                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' height='30' width='30'%3E%3Cpath fill='%23C1E0FE' d='M9 0H24V15C24 19.9675 19.9675 24 15 24H0V9C0 4.0325 4.0325 0 9 0Z'/%3E%3C/svg%3E");
+                    }
+                }
+
+                &.icon-bg-violet {
+                    &::before {
+                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' height='30' width='30'%3E%3Cpath fill='%23C9C2F5' d='M9 0H24V15C24 19.9675 19.9675 24 15 24H0V9C0 4.0325 4.0325 0 9 0Z'/%3E%3C/svg%3E");
+                    }
+                }
+
+                &.icon-bg-red {
+                    &::before {
+                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' height='30' width='30'%3E%3Cpath fill='%23F5D9E1' d='M9 0H24V15C24 19.9675 19.9675 24 15 24H0V9C0 4.0325 4.0325 0 9 0Z'/%3E%3C/svg%3E");
+                    }
+                }
+
+                &.icon-bg-green {
+                    &::before {
+                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' height='30' width='30'%3E%3Cpath fill='%2391D9E3' d='M9 0H24V15C24 19.9675 19.9675 24 15 24H0V9C0 4.0325 4.0325 0 9 0Z'/%3E%3C/svg%3E");
+                    }
+                }
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 30px;
+                    height: 30px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    z-index: -1;
+                }
+            }
+        }
+    }
+}

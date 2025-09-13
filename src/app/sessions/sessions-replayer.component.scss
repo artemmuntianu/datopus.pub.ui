@@ -1,0 +1,21 @@
+:host {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+}
+
+.player-wrapper {
+	flex: 1 1 0;
+	min-width: 400px;
+}
+
+.sessions-list-wrapper {
+	flex: 1 1 250px;     
+	min-width: 200px;     
+	max-width: 300px;  
+}
+
+.sessions-replayer-wrapper {
+	height: calc(100vh - 300px);
+	margin-bottom: 20px;
+}

@@ -1,0 +1,146 @@
+<div class="home-container">
+    <h2>Welcome, {{user.full_name}}!</h2>
+    <div class="row">
+        <!-- Getting Started Card -->
+        <div *ngIf="showGettingStarted" class="col-lg-6 mb-25">
+            <mat-card class="daxa-card border-radius bg-white">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h5 class="mb-0">Getting Started</h5>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <ul class="list-unstyled p-0">
+                        <li class="mb-10">
+                            <a routerLink="/getting-started" class="d-flex align-items-center">
+                                <i class="material-symbols-outlined icon-bg-violet mr-10">rocket_launch</i>
+                                <span>Getting Started Guide</span>
+                            </a>
+                            <p class="text-muted mt-1 mb-0 ml-40 pointer-events-none">
+                                Follow our step-by-step guide to set up your account, connect data sources, and start analyzing your user behavior.
+                            </p>
+                        </li>
+                    </ul>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <!-- Dashboards Card -->
+        <div class="col-lg-6 mb-25">
+            <mat-card class="daxa-card border-radius bg-white">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h5 class="mb-0">Dashboards</h5>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <ul class="list-unstyled p-0">
+                        <li class="mb-10">
+                            <a [routerLink]="'/dashboard/ga'" class="d-flex align-items-center">
+                                <i class="material-symbols-outlined icon-bg-blue mr-10">dashboard</i>
+                                <span>Google Analytics</span>
+                            </a>
+                            <p class="text-muted mt-1 mb-0 ml-40 pointer-events-none">
+                                This dashboard shows how users interact with features, move between them, and use UI elements. You’ll see key metrics like events, users, and revenue.
+                            </p>
+                        </li>
+                        @for (dashboard of dashboardStore.dashboards(); track dashboard.id) {
+                        <li class="mb-10">
+                            <a [routerLink]="['/dashboard', dashboard.id]" class="d-flex align-items-center">
+                                <i class="material-symbols-outlined icon-bg-blue mr-10">dashboard</i>
+                                <span>{{dashboard.name}}</span>
+                            </a>
+                            <p class="text-muted mt-1 mb-0 ml-40 pointer-events-none">
+                                {{dashboard.description}}
+                            </p>
+                        </li>
+                        }
+                    </ul>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <!-- Feature Reports Card -->
+        <div class="col-lg-6 mb-25">
+            <mat-card class="daxa-card border-radius bg-white">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h5 class="mb-0">Feature Reports</h5>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <ul class="list-unstyled p-0">
+                        <li class="mb-10">
+                            <a routerLink="/reports/features/flow" class="d-flex align-items-center">
+                                <i class="material-symbols-outlined icon-bg-red mr-10">account_tree</i>
+                                <span>Flow</span>
+                            </a>
+                            <p class="text-muted mt-1 mb-0 ml-40 pointer-events-none">
+                                User journey map will highlight important touchpoints, help you understand where visitors enter, how often users navigate to a different feature, and the final action a user takes in a journey.
+                            </p>
+                        </li>
+                        <li class="mb-10">
+                            <a routerLink="/reports/features/usage" class="d-flex align-items-center">
+                                <i class="material-symbols-outlined icon-bg-red mr-10">timeline</i>
+                                <span>Usage</span>
+                            </a>
+                            <p class="text-muted mt-1 mb-0 ml-40 pointer-events-none">
+                                Use this report to dive deeper into the data and compare segments using drill-down.
+                            </p>
+                        </li>
+                        <li class="mb-10">
+                            <a routerLink="/reports/features/events" class="d-flex align-items-center">
+                                <i class="material-symbols-outlined icon-bg-red mr-10">table_chart</i>
+                                <span>Events</span>
+                            </a>
+                            <p class="text-muted mt-1 mb-0 ml-40 pointer-events-none">
+                                See detailed UI elements that users interacted with, as well as features, transitions, and events associated with user actions.
+                            </p>
+                        </li>
+                    </ul>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <!-- Suggested Card -->
+        <div class="col-lg-6 mb-25">
+            <mat-card class="daxa-card border-radius bg-white">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h5 class="mb-0">Suggested</h5>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <ul class="list-unstyled p-0">
+                        <li class="mb-10">
+                            <a routerLink="/session-replay" class="d-flex align-items-center">
+                                <i class="material-symbols-outlined icon-bg-green mr-10">videocam</i>
+                                <span>Session Replay</span>
+                            </a>
+                            <p class="text-muted mt-1 mb-0 ml-40 pointer-events-none">
+                                Watch recorded user sessions to understand how users interact with your application and identify potential issues.
+                            </p>
+                        </li>
+                        <li class="mb-10">
+                            <a routerLink="/ask-data" class="d-flex align-items-center">
+                                <i class="material-symbols-outlined icon-bg-green mr-10">bubble_chart</i>
+                                <span>Ask Data</span>
+                            </a>
+                            <p class="text-muted mt-1 mb-0 ml-40 pointer-events-none">
+                                Chat with your analytics data. Use natural language to explore trends, generate insights, and get instant answers — no coding or SQL queries required.
+                            </p>
+                        </li>
+                        <li class="mb-10">
+                            <a routerLink="/reports/externals" class="d-flex align-items-center">
+                                <i class="material-symbols-outlined icon-bg-green mr-10">pie_chart</i>
+                                <span>External Reports</span>
+                            </a>
+                            <p class="text-muted mt-1 mb-0 ml-40 pointer-events-none">
+                                Access and analyze data from external sources, including Google Analytics and other third-party platforms.
+                            </p>
+                        </li>
+                    </ul>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,291 @@
+.mat-mdc-card {
+    &.daxa-card {
+        &.sidebar-card {
+            .mat-mdc-card-content {
+                .sidebar-list {
+                    li {
+                        margin-bottom: 22px;
+
+                        a {
+                            padding-left: 28px;
+
+                            i {
+                                transform: translateY(-50%);
+                                position: absolute;
+                                margin-top: -.5px;
+                                font-size: 16px;
+                                top: 50%;
+                                left: 0;
+                            }
+
+                            span {
+                                font-size: 14px;
+                            }
+
+                            &.active {
+                                color: var(--daxaColor);
+                            }
+                        }
+
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+
+                        ul {
+                            padding-left: 28px;
+
+                            margin: {
+                                top: 20px;
+                                bottom: 25px;
+                            }
+
+                            ;
+
+                            li {
+                                margin-bottom: 18px;
+
+                                a {
+                                    padding-left: 17px;
+                                    font-size: 15.5px;
+
+                                    &::before {
+                                        left: 0;
+                                        top: 50%;
+                                        width: 5px;
+                                        content: '';
+                                        height: 5px;
+                                        border-radius: 50%;
+                                        position: absolute;
+                                        background: #1f1f1f;
+                                        transform: translateY(-50%);
+                                        transition: var(--transition);
+                                    }
+
+                                    &.active, &:hover {
+                                        &::before {
+                                            background: var(--daxaColor);
+                                        }
+                                    }
+                                }
+
+                                &:last-child {
+                                    margin-bottom: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &.report-card {
+            .buttons-list {
+                margin: 10px;
+            }
+
+            .mat-mdc-card-content {
+                height: calc(100vh - 170px);
+
+                iframe {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                h3 {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
+
+        &.sidebar-card, &.report-card {
+            .mat-mdc-button {
+                padding: 0px 3px 0px 0px;
+                height: auto;
+                min-width: auto;
+                margin-left: 10px;
+                display: inline-block;
+                transition: var(--transition);
+
+                &:first-child {
+                    margin-left: 0px;
+                }
+
+                &:hover {
+                    color: var(--daxaColor) !important;
+                }
+
+                ::ng-deep span.mdc-button__label {
+                    display: inline-flex;
+                    padding-top: 5px;
+                }
+
+                i {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}
+
+.report-links {
+    a {
+        width: 100%;
+        margin: 10px 0px 0px 10px;
+        word-wrap: anywhere;
+        padding-left: 20px !important;
+        display: inline-flex !important;
+        align-items: center;
+
+        &.active {
+            div {
+                color: var(--daxaColor);
+            }
+        }
+    }
+}
+
+#add-new-report-big-btn {
+    height: 30px;
+    padding: 10px;
+}
+
+.report-icon {
+    background: url('/images/icons/external-reports/icons.png') no-repeat top left;
+    width: 16px;
+    height: 16px;
+
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        background: url('/images/icons/external-reports/icons-retina.png') no-repeat top left;
+        background-size: 16px 96px;
+    }
+
+    &.icon-adobe-analytics {
+        background-position: 0 0;
+    }
+
+    &.icon-google-presentation {
+        background-position: 0 -16px;
+    }
+
+    &.icon-google-document {
+        background-position: 0 -32px;
+    }
+
+    &.icon-google-spreadsheet {
+        background-position: 0 -48px;
+    }
+
+    &.icon-google-analytics {
+        background-position: 0 -64px;
+    }
+
+    &.icon-looker-studio {
+        background-position: 0 -80px;
+    }
+}
+
+::ng-deep {
+    .add-new-report-popup {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        z-index: 999;
+        position: fixed;
+        transition: .3s;
+        visibility: hidden;
+        background-color: rgba(0, 0, 0, 0.5);
+
+        overflow: {
+            x: hidden;
+            y: auto;
+        }
+
+        .popup-dialog {
+            display: flex;
+            transition: .3s;
+            max-width: 550px;
+            align-items: center;
+            transform: translate(0, -20px);
+            min-height: calc(100% - 1.75rem * 2);
+
+            margin: {
+                left: auto;
+                right: auto;
+            }
+
+            .daxa-card {
+                width: 100%;
+
+                .mat-mdc-card-header {
+                    border-bottom: 1px solid #eeeeee;
+
+                    margin: {
+                        left: -20px;
+                        right: -20px;
+                    }
+
+                    padding: {
+                        left: 20px;
+                        right: 20px;
+                        bottom: 18px;
+                    }
+
+                    .mat-mdc-card-subtitle {
+                        .mat-mdc-button {
+                            padding: 0;
+                            height: auto;
+                            line-height: 1;
+                            min-width: auto;
+                            display: inline-block;
+                            font-size: 23px !important;
+                        }
+                    }
+                }
+
+                .mat-mdc-card-content {
+                    .main-label {
+                        margin-bottom: 12px;
+                        font-size: 15px;
+                    }
+
+                    .mat-mdc-form-field {
+                        margin-bottom: 20px;
+                    }
+
+                    .btn-box {
+                        text-align: right;
+
+                        .mat-mdc-button {
+                            border: 0;
+                            height: auto;
+                            min-width: auto;
+                            min-height: auto;
+                            padding: 14px 35px;
+                            font-weight: normal;
+                            color: var(--whiteColor);
+                            font-size: 15px !important;
+                            background-color: var(--daxaColor);
+
+                            &:first-child {
+                                margin-right: 10px;
+                                background-color: var(--dangerColor);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &.active {
+            opacity: 1;
+            visibility: visible;
+
+            .popup-dialog {
+                transform: none;
+            }
+        }
+    }
+}

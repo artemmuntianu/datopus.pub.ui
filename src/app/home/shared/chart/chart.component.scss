@@ -1,0 +1,54 @@
+
+
+
+:host {
+    display:block;
+    height: 100%;
+}
+
+
+@container tile-container (max-height: 400px){
+    apx-chart {
+        ::ng-deep {
+            .apexcharts-legend {
+                max-height: 30px !important;
+            }
+        }
+    }
+}
+
+@container tile-container (max-height: 800px) and (min-height: 401px) {
+    apx-chart {
+        ::ng-deep {
+            .apexcharts-legend {
+                max-height: 100px !important;
+            }
+        }
+    }
+}
+
+@container tile-container (width > 0) {  
+    mat-progress-spinner {
+        height: 30% !important;
+        width: auto !important;
+        aspect-ratio: 1 / 1;
+    }
+
+    apx-chart {
+        display: block;
+        height: 100% !important;
+    }
+
+}
+
+@container ask-data-messages-container (width > 0) {  
+    apx-chart {
+        display: block;
+        height: 500px !important;
+    }
+}
+
+apx-chart {
+    display: block;
+    height: 500px;
+}

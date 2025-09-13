@@ -1,0 +1,12 @@
+:host::ng-deep {
+	padding-bottom: 100px;
+
+	.ktd-grid-item-placeholder {
+		background-color: var(--daxaColor);
+	}
+	.grid-item-resize-icon:after {
+		width: 8px !important;
+		height: 8px !important;
+	}
+}
+

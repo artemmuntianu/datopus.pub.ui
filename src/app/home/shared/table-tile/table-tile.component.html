@@ -1,0 +1,75 @@
+<mat-card
+    class="daxa-card table-tile-card pb-0 border-radius bg-white border-none d-block h-100"
+>
+    <mat-card-header>
+        <div class="d-flex align-items-center justify-content-between g-5">
+            <mat-card-title class="title-container">
+                <h5 class="mb-0">
+                    {{ title() }}
+                </h5>
+                @if(titleTooltip(); as titleTooltip) {
+                <i class="material-symbols-outlined" [matTooltip]="titleTooltip" matTooltipPosition="above">
+                    help_outline
+                </i>
+                }
+            </mat-card-title>
+            <ng-content select="[slot='header-items']"></ng-content>
+        </div>
+    </mat-card-header>
+    <mat-card-content class="h-100">
+        <div [class]="tableClass()" class="d-flex h-100 flex-column">
+            <div class="table-responsive">
+                @let isInitiallyLoaded = isInitiallyLoading();
+                @let cellPlaceholders = emptyCellPlaceholders();
+
+                <table
+                    mat-table
+                    matSort
+                    [matSortDisabled]="!enableSort()"
+                    matSortDisableClear="true"
+                    [dataSource]="dataSource"
+                >
+                    <ng-container
+                        *ngFor="let column of columns()"
+                        [matColumnDef]="column.name"
+                    >
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            [ngClass]="{ 'skeleton-header': isInitiallyLoaded }"
+                        >
+                            <div
+                                *ngIf="!isInitiallyLoaded; else skeletonHeader"
+                            >
+                                {{ column.name }}
+                            </div>
+                            <ng-template #skeletonHeader>
+                                <div class="skeleton-row">&nbsp;</div>
+                            </ng-template>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="!isInitiallyLoaded; else skeletonCell">
+                                {{ (element[column.name] | tableValueFormatter: column.formatterSettings) || cellPlaceholders[column.name] }}
+                            </div>
+                            <ng-template #skeletonCell>
+                                <div class="skeleton-row">&nbsp;</div>
+                            </ng-template>
+                        </td>
+                    </ng-container>
+                    @let displayedCols = displayedColumns();
+                    
+                    <tr mat-header-row *matHeaderRowDef="displayedCols; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedCols" (click)="rowClicked(row)" [class.selected-row]="row === selectedRow">
+                    </tr>
+                </table>
+            </div>
+            @if(enablePagination()) {
+                <mat-paginator [pageSizeOptions]="[10, 15, 20, 30]" [pageSize]="15" showFirstLastButtons></mat-paginator>
+            }
+        </div>
+        <div class="actions">
+            <ng-content select="[slot='actions']"></ng-content>
+        </div>
+    </mat-card-content>
+</mat-card>

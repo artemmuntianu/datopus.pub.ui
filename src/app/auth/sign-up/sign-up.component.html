@@ -1,0 +1,129 @@
+<div class="sign-up-area">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="daxa-form ml-auto mr-auto border-radius bg-white">
+                @switch(layout) {
+                    @case('signup') {
+                        <div class="title text-center">
+                            <h3>
+                                Sign Up
+                            </h3>
+                            <p class="text-black">
+                                Already have an account? <a routerLink="/auth" class="text-d">Sign In</a>
+                            </p>
+                        </div>
+                        <form [formGroup]="authForm" (ngSubmit)="onSignup()">
+                            <div class="form-group">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Name
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter name
+                                    </mat-label>
+                                    <input matInput type="text" id="name" formControlName="name">
+                                </mat-form-field>
+                                <div class="error text-danger" *ngIf="authForm.get('name')!.hasError('required') && authForm.get('name')!.touched">
+                                    Name is required.
+                                </div>
+                                <div class="error text-danger" *ngIf="authForm.get('name')!.hasError('name') && authForm.get('name')!.touched">
+                                    Please enter a valid name.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Email Address
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter email address
+                                    </mat-label>
+                                    <input matInput type="email" id="email" formControlName="email">
+                                </mat-form-field>
+                                <div class="error text-danger" *ngIf="authForm.get('email')!.hasError('required') && authForm.get('email')!.touched">
+                                    Email is required.
+                                </div>
+                                <div class="error text-danger" *ngIf="authForm.get('email')!.hasError('email') && authForm.get('email')!.touched">
+                                    Please enter a valid email address.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Organization
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter organization name
+                                    </mat-label>
+                                    <input matInput type="text" id="organization" formControlName="organization">
+                                </mat-form-field>
+                                <div class="error text-danger" *ngIf="authForm.get('organization')!.hasError('required') && authForm.get('organization')!.touched">
+                                    Organization name is required. You will be able to change it later.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Your Password
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter your password
+                                    </mat-label>
+                                    <input matInput [type]="hidePassword ? 'password' : 'text'" id="password" formControlName="password">
+                                    <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                                        <span class="material-symbols-outlined">
+                                            {{hidePassword ? 'visibility_off' : 'visibility'}}
+                                        </span>
+                                    </button>
+                                </mat-form-field>
+                                <div class="error text-danger" *ngIf="authForm.get('password')!.hasError('required') && authForm.get('password')!.touched">
+                                    Password is required.
+                                </div>
+                                <div class="error text-danger" *ngIf="authForm.get('password')!.hasError('minlength') && authForm.get('password')!.touched">
+                                    Password must be at least 6 characters long.
+                                </div>
+                            </div>
+                            <button mat-button class="btn" type="submit" [disabled]="authForm.invalid">
+                                Sign Up
+                            </button>
+                        </form>
+                        <div class="mt-20">
+                            By signing up, you agree to the <a class="text-d" href="https://www.datopus.io/terms" target="_blank" class="text-d">Terms of Service</a> and <a class="text-d" href="https://www.datopus.io/privacy-policy" target="_blank" class="text-d">Privacy Policy</a>.
+                        </div>
+                    }
+                    @case('signin') {
+                        <div class="title text-center">
+                            <h3>
+                                Email Verification
+                            </h3>
+                        </div>
+                        <div class="quick-sign-in">
+                            <div class="d-table">
+                                <div class="d-table-cell">
+                                    <div class="daxa-form ml-auto mr-auto border-radius bg-white">
+                                        <div class="title text-center">
+                                            <h3>
+                                                Almost there!
+                                            </h3>
+                                        </div>
+                                        <div class="admin text-center">
+                                            <span class="d-block fw-medium">
+                                                An email containing verification instructions was sent to <span class="text-decoration-underline">{{authForm.get('email')!.value}}</span>.
+                                                <br>
+                                                You can sign in once your account is activated.
+                                            </span>
+                                            <br>
+                                            <button (click)="onSignin()" mat-button class="btn" type="submit">
+                                                Sign In as {{authForm.get('name')!.value}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

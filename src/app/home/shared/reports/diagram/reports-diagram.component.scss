@@ -1,0 +1,73 @@
+:host ::ng-deep {
+    .report-diagram {
+        background: #fff;
+        height: 100%;
+
+        g.link {
+            cursor: pointer;
+            stroke: #e0edff;
+            mix-blend-mode: multiply;
+            stroke-opacity: 0.75;
+
+            &:hover {
+                stroke-opacity: 1;
+            }
+        }
+
+        rect.node {
+            cursor: pointer;
+        }
+
+        text {
+            text-shadow: 0px 0.8px 1px #fff;
+        }
+    }
+}
+
+@container tile-container (width > 0) {
+    mat-progress-spinner {
+        height: 30% !important;
+        width: auto !important;
+        aspect-ratio: 1 / 1;
+    }
+}
+
+:host {
+    display: block;
+    height: 100%;
+}
+
+::ng-deep .diagram-control-panels {
+    display: flex;
+    align-items: center;
+
+    .diagram-control-button {
+        padding: 0px;
+
+        svg {
+            fill: #6e8192;
+        }
+    }
+
+    .diagram-panning-button {
+        transform: scale(0.63);
+
+        svg {
+            fill: #fff;
+            stroke: #008ffb;
+            stroke-width: 2px;
+        }
+    }
+
+    .diagram-reset-button {
+        transform: scale(0.8);
+    }
+
+    .diagram-zoom-in-button {
+        transform: scale(0.75);
+    }
+
+    .diagram-zoom-out-button {
+        transform: scale(0.75);
+    }
+}

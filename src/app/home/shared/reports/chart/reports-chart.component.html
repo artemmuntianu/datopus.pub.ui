@@ -1,0 +1,24 @@
+@if (bqError(); as error) {
+	<app-bq-api-error [error]="error"></app-bq-api-error>
+} @else if (loading()) {
+	<div class="progress-spinner-container d-flex justify-content-center align-items-center w-100 h-100">
+		<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+	</div>
+} @else {
+	<apx-chart
+		*ngIf="chartOptions() as options"
+		#apxchart
+		[series]="options.data"
+		[chart]="options.chart"
+		[dataLabels]="options.dataLabels"
+		[markers]="options.markers"
+		[title]="options.title"
+		[fill]="options.fill"
+		[yaxis]="options.yaxis"
+		[xaxis]="options.xaxis"
+		[plotOptions]="options.plotOptions"
+		[stroke]="options.stroke"
+		[grid]="options.grid"
+		[tooltip]="options.tooltip"
+	></apx-chart>
+}

@@ -1,0 +1,109 @@
+@let def = definition();
+
+@if (def?.explanation) {
+    <div
+        class="alert alert-bg-d text-md d-flex justify-content-between align-items-center"
+        *ngIf="isAlertVisible.reportExplanation"
+    >
+        {{ def!.explanation }}
+        <button
+            type="button"
+            class="close bg-transparent text-white p-0 border-none"
+            (click)="isAlertVisible.reportExplanation = false"
+        >
+            <i class="ri-close-line"></i>
+        </button>
+    </div>
+}
+
+<div class="d-flex justify-content-between align-items-center">
+    @let settings = timeService.getSettings();
+
+    <ng-date-range-picker
+        (click)="$event.preventDefault()"
+        class="d-block mb-10"
+        style="width: 260px"
+        (onDateSelectionChanged)="timeService.updateGlobalDateRangeTime($event)"
+        [selectedDates]="settings.currentRange"
+        (dateListOptions)="timeService.configureDateListOptions($event)"
+        [minDate]="settings.minDate"
+        [maxDate]="settings.maxDate"
+    ></ng-date-range-picker>
+
+    @if (saveEnabled()) {
+        <div class="g-5 d-flex">
+            <button mat-flat-button class="daxa" (click)="saveSettingsAndGoBack()">
+                Finish & Go Back
+            </button>
+        </div>
+    }
+</div>
+
+<mat-drawer-container hasBackdrop="false">
+    <mat-drawer-content data-ds-feature="Report.Flow.Main">
+        <div style="text-align: right; height: 50px">
+            <button
+                mat-fab
+                class="daxa"
+                style="margin-bottom: 10px; box-shadow: none; height: 30px; width: 30px"
+                (click)="onBtnClick_ShowHideSettingsPane()"
+                [style.display]="drawer.opened ? 'none' : 'inline-flex'"
+            >
+                <mat-icon>settings</mat-icon>
+            </button>
+        </div>
+        <mat-card class="daxa-card mb-25 border-radius bg-white border-none d-block">
+            <mat-card-content>
+                @if (definitionError(); as error) {
+                    <app-report-api-error [error]="error"></app-report-api-error>
+                } @else if (def) {
+                    <app-report-visual
+                        [definition]="def"
+                        [datasource]="datasourceStore.bqDatasource()"
+                    ></app-report-visual>
+                } @else {
+                    Loading...
+                }
+            </mat-card-content>
+        </mat-card>
+    </mat-drawer-content>
+    <mat-drawer
+        data-ds-feature="Report.Flow.Settings"
+        class="reports-usage-settings-drawer"
+        #drawer
+        mode="side"
+        opened="true"
+        position="end"
+    >
+        <ng-scrollbar>
+            <div class="reports-usage-settings-container">
+                <div class="close-settings-container">
+                    <button
+                        class="daxa close-settings-button"
+                        mat-fab
+                        (click)="onBtnClick_ShowHideSettingsPane()"
+                        [style.display]="drawer.opened ? 'inline-flex' : 'none'"
+                    >
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+
+                <mat-divider class="mb-10"></mat-divider>
+                @if (
+                    def &&
+                    reportsStore.dimensions().length &&
+                    reportsStore.metrics().length &&
+                    reportsStore.visuals()
+                ) {
+                    <app-report-settings
+                        [definition]="def"
+                        [dimensionDefinitions]="reportsStore.dimensions()"
+                        [metricDefinitions]="reportsStore.metrics()"
+                        [visuals]="reportsStore.visuals()"
+                        (settingsApplied)="applyNewSettings($event)"
+                    ></app-report-settings>
+                }
+            </div>
+        </ng-scrollbar>
+    </mat-drawer>
+</mat-drawer-container>

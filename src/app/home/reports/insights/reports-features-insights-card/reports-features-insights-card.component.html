@@ -1,0 +1,49 @@
+<mat-card class="daxa-card insight-card border-radius d-block">
+    <mat-card-content>
+        <div class="d-flex justify-content-between">
+            <div class="date text-body">{{insight.date | date:'shortDate'}}</div>
+            <div class="actions">
+                <button (click)="viewMonitorSettingsClick.emit(insight)" mat-icon-button class="small-icon-button view-settings-button" matTooltip="View Monitor Settings" matTooltipPosition="above">
+                    <i class="material-symbols-outlined">tune</i>
+                </button>
+            </div>
+        </div>
+        <div class="title">
+            {{insight.monitor.name}}
+        </div>
+        <div class="info">
+            <span class="sub-title d-block">
+                {{insight.subtitle}}
+            </span>
+            <ng-container [ngSwitch]="insight.value > 0">
+                <span *ngSwitchCase="true" class="daxa-up-down-badge up float-r">
+                    <i class="material-symbols-outlined">trending_up</i>
+                    {{ insight.isPercent ? (insight.value|percent:'1.0-2') : (insight.value|number) }}
+                </span>
+                <span *ngSwitchCase="false" class="daxa-up-down-badge down text-danger float-r">
+                    <i class="material-symbols-outlined">trending_down</i>
+                    {{ insight.isPercent ? (-1*insight.value|percent:'1.0-2') : (-1*insight.value|number) }}
+                </span>
+            </ng-container>
+        </div>
+        <div class="chart-container"> 
+            <div class="chart">
+                <apx-chart
+                    [series]="chartOptions.series!"
+                    [chart]="chartOptions.chart!"
+                    [xaxis]="chartOptions.xaxis!"
+                    [stroke]="chartOptions.stroke!"
+                    [dataLabels]="chartOptions.dataLabels!"
+                    [yaxis]="chartOptions.yaxis!"
+                    [tooltip]="chartOptions.tooltip!"
+                    [labels]="chartOptions.labels!"
+                    [legend]="chartOptions.legend!"
+                    [fill]="chartOptions.fill!"
+                    [grid]="chartOptions.grid!"
+                    [title]="chartOptions.title!"
+                    [subtitle]="chartOptions.subtitle!"
+                ></apx-chart>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

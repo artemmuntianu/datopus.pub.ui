@@ -1,0 +1,30 @@
+@use '@angular/material' as mat;
+
+:host {
+    @include mat.button-toggle-overrides(
+        (
+            height: 1
+        )
+    );
+	@include mat.progress-bar-overrides((
+	  active-indicator-color: 'var(--daxaColor)',
+	  active-indicator-height: '2px',
+	  track-height: '2px'
+	));
+	::ng-deep {
+		.mat-button-toggle {
+			border-radius: unset;
+			display: flex;
+		}
+		.mat-button-toggle-button {
+			display: flex;
+			align-items: center;
+		}
+	}
+}
+
+
+.dashboard-header-menu-button {
+	height: 30px;
+	padding: 10px;
+}

@@ -1,0 +1,86 @@
+.mat-mdc-card {
+    &.daxa-card {
+        &.insight-card {
+            padding: 0px;
+            margin-bottom: 30px;
+            background-color: #E8F2FF;
+
+            .date {
+                font-size: 14px;
+            }
+
+            .mat-mdc-card-content {
+                padding: 20px 20px 0px 20px;
+
+                .title {
+                    height: 2.6em;
+                    font-size: 1em;
+                    font-weight: 500;
+                    margin-bottom: 10px;
+                    overflow-y: auto;
+                }
+
+                .info {
+                    margin-bottom: 10px;
+
+                    .sub-title {
+                        font-size: 1em;
+                        height: 3.8em;
+                        overflow-y: auto;
+                    }
+                }
+
+                .icon {
+                    width: 75px;
+                    height: 75px;
+
+                    img {
+                        transform: translateY(-50%);
+                        position: absolute;
+                        top: 50%;
+                        right: 0;
+                        left: 0;
+
+                        margin: {
+                            top: -1px;
+                            left: auto;
+                            right: auto;
+                        }
+
+                        ;
+                    }
+                }
+            }
+
+            .chart-container {
+                position: relative;
+                height: 135px;
+
+                .chart {
+                    left: -42px;
+                    right: -30px;
+                    bottom: -30px;
+                    position: absolute;
+                }
+            }
+
+            .small-icon-button {
+                width: 30px;
+                height: 30px;
+                padding: 0px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+
+                &.view-settings-button {
+                    margin-top: -4px;
+                }
+
+                ::ng-deep .mat-mdc-button-touch-target {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+        }
+    }
+}

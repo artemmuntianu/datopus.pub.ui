@@ -1,0 +1,150 @@
+@import './mixins.scss';
+
+
+.reload-button {
+    @include link-styled-button;
+    white-space: nowrap;
+}
+
+@container tile-container (width > 0px) {
+    .mat-mdc-card { 
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+}
+
+@container tile-container (max-height: 600px) or (max-width: 600px) {
+    .mat-mdc-card {
+        height: 100%;
+        &.daxa-card {
+            &.warning-card {
+                padding-top: 0px !important;
+                padding-bottom: 0px !important;
+            }
+        }
+    }
+}
+
+@container tile-container (max-width: 300px) {
+    .title {
+        font-size: 1rem !important;
+    }
+    .description {
+        font-size: 0.6rem !important;
+    }
+
+    .reload-button {
+        margin: 0px !important;
+        height: 24px !important;
+    }
+}
+
+@container tile-container (max-height: 200px) {
+    .text-warning {
+        display: none;
+    }
+    .title {
+        display: none;
+    }
+    .description {
+        font-size: 0.6rem !important;
+    }
+
+    .reload-button {
+        margin: 0px !important;
+        height: 24px !important;
+    }
+}
+
+
+
+.mat-mdc-card {
+    &.daxa-card {
+        height: 100%;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+
+        &.warning-card {
+            padding-top: 100px;
+            padding-bottom: 100px;
+
+            .mat-mdc-card-content {
+                h3 {
+                    margin: {
+                        bottom: 10px;
+                    };
+                }
+                .mat-mdc-button {
+                    border: 0;
+                    height: auto;
+                    min-width: auto;
+                    min-height: auto;
+                    margin-top: 10px;
+                    padding: 10px 30px;
+                    font-weight: normal;
+                    color: var(--whiteColor);
+                    background-color: var(--daxaColor);
+                }
+            }
+        }
+    }
+}
+
+/* Max width 767px */
+@media only screen and (max-width : 767px) {
+    .mat-mdc-card {
+        &.daxa-card {
+            &.warning-card {
+                padding-top: 40px;
+                padding-bottom: 40px;
+                .mat-mdc-card-content {
+                    .mat-mdc-button {
+                        padding: 13px 30px;
+                        margin-top: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+/* Min width 576px to Max width 767px */
+@media only screen and (min-width : 576px) and (max-width : 767px) {}
+
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width : 768px) and (max-width : 991px) {
+
+    .mat-mdc-card {
+        &.daxa-card {
+            &.warning-card {
+                padding-top: 70px;
+                padding-bottom: 70px;
+            }
+        }
+    }
+
+}
+
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width : 992px) and (max-width : 1199px) {
+
+    .mat-mdc-card {
+        &.daxa-card {
+            &.warning-card {
+                padding-bottom: 90px;
+                padding-top: 90px;
+            }
+        }
+    }
+
+}
+
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {}
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {}

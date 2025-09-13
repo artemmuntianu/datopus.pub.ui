@@ -1,0 +1,42 @@
+.filter-container {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.filter-container:hover {
+    border-color: #d0d0d0;
+}
+
+.visual-tab-error-icon {
+    width: unset;
+    height: unset;
+    font-size: 1.2rem;
+}
+
+.filter-container div:first-child {
+    font-weight: 500;
+    color: #424242;
+}
+
+.filter-container button {
+    margin-left: 8px;
+}
+
+.filter-edit-container {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+:host::ng-deep {
+    .mat-mdc-button-touch-target {
+        height: unset !important;
+    }
+}
+
+.column-type-icon {
+    height: 22px;
+}

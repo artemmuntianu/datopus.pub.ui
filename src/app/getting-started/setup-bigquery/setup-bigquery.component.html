@@ -1,0 +1,57 @@
+<app-getting-started-page>
+    <div class="step-content">
+        <h3>Enable the Google BigQuery sandbox</h3>
+        <div class="alert alert-d">
+            Proceed to the next step if you already have Google BigQuery set up.
+        </div>
+        <p>The BigQuery sandbox lets you explore limited BigQuery capabilities at no cost to confirm whether BigQuery fits your needs. The BigQuery sandbox lets you experience BigQuery without providing a credit card or creating a billing account for your project. If you already created a billing account, you can still use BigQuery at no cost in the free usage tier.</p>
+        <p>You will be granted the same free usage limits as the BigQuery free tier, including 10 GB of active storage and 1 TB of processed query data each month.</p>
+
+        <h4>Start using the BigQuery sandbox</h4>
+        <ol>
+            <li>
+                <p>In the Google Cloud console, go to the <strong>BigQuery</strong> page.</p>
+                <a href="https://console.cloud.google.com/bigquery" target="_blank" class="text-d" mat-flat-button class="daxa">
+                    Go to BigQuery
+                </a>
+                <br><br>
+                <p>The Google Cloud console is the graphical interface that you use to create and manage BigQuery resources and to run SQL queries.</p>
+            </li>
+            <li>
+                <p>Authenticate with your Google Account.</p>
+            </li>
+            <li>
+                <p>On the welcome page, do the following:</p>
+                <ol>
+                    <li>For <strong>Country</strong>, select your country.</li>
+                    <li>For <strong>Terms of Service</strong>, select the checkbox if you agree to the terms of service.</li>
+                    <li>Optional: If you are asked about email updates, select the checkbox if you want to receive email updates.</li>
+                    <li>Click <strong>Agree and continue</strong>.</li>
+                </ol>
+                <img src="https://datopus.blob.core.windows.net/onboarding-images/bq-sandbox-welcome.png" class="explaining-img">
+            </li>
+            <li>
+                <p>Click <strong>Create project</strong>.</p>
+            </li>
+            <li>
+                <p>On the <strong>New Project</strong> page, do the following:</p>
+                <ol>
+                    <li>For <strong>Project name</strong>, enter a name for your project.</li>
+                    <li>For <strong>Organization</strong>, select an organization or select <strong>No organization</strong> if you are not part of one.</li>
+                    <li>If you are asked to select a <strong>Location</strong>, click <strong>Browse</strong> and select a location for your project.</li>
+                    <li>Click <strong>Create</strong>. You are redirected back to the <strong>BigQuery</strong> page in the Google Cloud console.</li>
+                </ol>
+                <img src="https://datopus.blob.core.windows.net/onboarding-images/bq-sandbox-project.png" class="explaining-img">
+            </li>
+            <p>You have successfully enabled the BigQuery sandbox. A BigQuery sandbox notice is now displayed on the BigQuery page:</p>
+            <img src="https://datopus.blob.core.windows.net/onboarding-images/bq-sandbox-confirmation.png" class="explaining-img" style="max-width:100%">
+        </ol>
+
+        <h4>The BigQuery sandbox is subject to the following limits</h4>
+        <ol>
+            <li>All BigQuery <a href="https://cloud.google.com/bigquery/quotas" class="text-d">quotas and limits</a> apply.</li>
+            <li>You are granted the same free usage limits as the BigQuery <a href="https://cloud.google.com/bigquery/pricing#free-tier" class="text-d">free tier</a>, including 10 GB of active storage and 1 TB of processed query data each month.</li>
+            <li>All BigQuery datasets have a <a href="https://cloud.google.com/bigquery/docs/updating-datasets#table-expiration" class="text-d">default table expiration time</a>, and all tables, views, and partitions automatically expire after 60 days.</li>
+        </ol>
+    </div>
+</app-getting-started-page> 

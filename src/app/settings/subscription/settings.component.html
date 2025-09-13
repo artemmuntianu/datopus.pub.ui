@@ -1,0 +1,20 @@
+<mat-card class="daxa-card settings-card bg-transparent border-none d-flex flex-column flex-grow-1">
+    <mat-card-content class="d-flex flex-column flex-grow-1">
+        @if(isRouteAllowed()) {
+            <ul class="pl-0 mt-0 list-unstyled">
+                <li class="d-inline-block">
+                    <a routerLink="/settings/subscription" mat-button routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        Active Plan
+                    </a>
+                </li>
+                <li class="d-inline-block">
+                    <a routerLink="/settings/subscription/available-plans" mat-button routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        Available Plans
+                    </a>
+                </li>
+            </ul>
+        }
+        
+        <router-outlet />
+    </mat-card-content>
+</mat-card>

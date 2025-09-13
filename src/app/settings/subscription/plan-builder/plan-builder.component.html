@@ -1,0 +1,416 @@
+<div
+    class="plan-actions-bar d-flex justify-content-between align-items-center p-3 bg-light border rounded"
+>
+    <div class="d-flex g-10 col-4">
+        <button
+            mat-stroked-button
+            class="daxa navigation-stroked-button navigation-button"
+            (click)="navigateToSubscriptionPage()"
+        >
+            <mat-icon>arrow_back</mat-icon>
+            Back to Subscription
+        </button>
+        <button
+            mat-stroked-button
+            class="daxa navigation-stroked-button navigation-button"
+            (click)="contactSales()"
+        >
+            Contact Sales
+        </button>
+    </div>
+    <div class="col-4 d-flex justify-content-center">
+        <mat-button-toggle-group
+            [disabled]="hasActivePaidSubscription()"
+            hideSingleSelectionIndicator
+            [value]="selectedCurrency()"
+            (valueChange)="changeCurrency($event)"
+            name="currencyType"
+            class="plan-currency-toggle-group"
+        >
+            <mat-button-toggle value="usd">$ USD</mat-button-toggle>
+            <mat-button-toggle value="eur">€ EUR</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+    <div class="col-4 d-flex justify-content-end">
+        @if (hasManagableCanceledSubscription()) {
+            <button mat-flat-button class="daxa navigation-button" (click)="changePlan()">
+                <div class="d-flex g-5 align-items-center">
+                    <span>Renew Plan</span>
+                    <mat-icon class="navigation-arrow-icon">arrow_forward</mat-icon>
+                </div>
+            </button>
+        } @else if (hasNonManagableSubscriptionStatus()) {
+            <button mat-flat-button class="daxa col-4 navigation-button" (click)="goToCheckout()">
+                <div class="d-flex g-5 align-items-center">
+                    <span>Go to Checkout</span>
+                    <mat-icon class="navigation-arrow-icon">arrow_forward</mat-icon>
+                </div>
+            </button>
+        } @else if (hasManagableSubscriptionStatus()) {
+            <button mat-flat-button class="daxa navigation-button" (click)="changePlan()">
+                <div class="d-flex g-5 align-items-center">
+                    <span>Update Plan</span>
+                    <mat-icon class="navigation-arrow-icon">arrow_forward</mat-icon>
+                </div>
+            </button>
+        } @else {
+            <button mat-flat-button class="daxa col-4 navigation-button" (click)="goToCheckout()">
+                <div class="d-flex g-5 align-items-center">
+                    <span>Go to Checkout</span>
+                    <mat-icon class="navigation-arrow-icon">arrow_forward</mat-icon>
+                </div>
+            </button>
+        }
+    </div>
+</div>
+
+<div class="d-flex g-10 mt-10 flex-grow-1">
+    <div class="d-flex flex-column p-4 bg-white rounded shadow-sm half-width p-10 g-10">
+        <h2 class="mb-2">Your current plan</h2>
+        @if (loadingSubscription() || loadingCurrentPlan()) {
+            <div class="d-flex align-items-center justify-content-center">
+                <mat-progress-spinner mode="indeterminate" [diameter]="50"></mat-progress-spinner>
+            </div>
+        } @else {
+            <div class="d-flex justify-content-between align-items-center">
+                <span>
+                    {{ currentSubName() }}
+                </span>
+                <span class="fw-bold">
+                    {{ currentSubscription()?.status | subStatus }}
+                </span>
+            </div>
+
+            @if (currentSubscriptionStartEndDates(); as range) {
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>Period</span>
+                    <span class="fw-bold">{{ range.start | date }} - {{ range.end | date }}</span>
+                </div>
+            }
+
+            @if (currentSubscriptionDetails(); as currentSubDetails) {
+                <div class="d-flex g-5 align-items-center justify-content-between">
+                    <div>Price</div>
+                    <div class="d-flex g-5 align-items-center">
+                        <span class="price fw-bold">
+                            {{
+                                currentSubDetails.flatAmount
+                                    | cents
+                                    | currency: currentSubDetails.currency.toUpperCase()
+                            }}
+                            <span class="fw-bold">/{{ currentSubDetails.interval }}</span>
+                        </span>
+                        @if (currentSubDetails.hasExtraCharge) {
+                            <span class="fw-bold">
+                                @if (currentSubDetails.extraCharge; as extraCharge) {
+                                    {{
+                                        extraCharge
+                                            | cents
+                                            | currency
+                                                : currentSubDetails.currency.toUpperCase()
+                                                : 'symbol'
+                                                : '1.0-6'
+                                    }}
+                                    <span class="fw-bold">/MTU</span>
+                                }
+                            </span>
+                        } @else {
+                            <span>No MTU limits</span>
+                        }
+                    </div>
+                </div>
+                @if (loadingCurrentBillingDetails()) {
+                    <div class="d-flex align-items-center justify-content-center">
+                        <mat-progress-spinner
+                            mode="indeterminate"
+                            [diameter]="30"
+                        ></mat-progress-spinner>
+                    </div>
+                } @else {
+                    @if (currentBillingTotalDetails(); as details) {
+                        <div class="d-flex align-items-center g-5 justify-content-between">
+                            <span>Total per {{ currentSubDetails.interval }}</span>
+
+                            <span class="fw-bold">
+                                {{
+                                    details?.total
+                                        | cents
+                                        | currency: details?.currency?.toUpperCase() ?? 'USD'
+                                }}
+                            </span>
+                        </div>
+                    }
+                }
+            }
+        }
+    </div>
+
+    <div class="d-flex flex-column p-4 bg-white rounded shadow-sm half-width p-10 g-10">
+        <h2 class="mb-3">Your new plan</h2>
+        @if (loadingSubscription() || loadingNewPlan()) {
+            <div class="d-flex align-items-center justify-content-center">
+                <mat-progress-spinner mode="indeterminate" [diameter]="50"></mat-progress-spinner>
+            </div>
+        } @else {
+            <mat-radio-group
+                aria-label="Select an option"
+                class="g-10 d-flex"
+                (change)="changeTimePlan($event.value)"
+                [value]="selectedSubscriptionTimePlan()"
+            >
+                <mat-radio-button [value]="billingPeriodENUM.Monthly">Monthly</mat-radio-button>
+                <mat-radio-button [value]="billingPeriodENUM.Yearly">
+                    Annual
+                    @if (yearlyDiscountAmountPercents(); as yearDiscount) {
+                        (-{{ yearDiscount }}%)
+                    }
+                </mat-radio-button>
+            </mat-radio-group>
+            @if (yearlyPriceDifference(); as priceDifference) {
+                <p class="text-black">
+                    @if (selectedSubscriptionTimePlan() === billingPeriodENUM.Monthly) {
+                        Save
+                    } @else {
+                        You are saving
+                    }
+                    {{ priceDifference | cents | currency: selectedCurrency().toUpperCase() }} on
+                    annual billing
+                </p>
+            }
+            <mat-divider class="w-100 my-3"></mat-divider>
+
+            @if (newPlanSupportsMTU()) {
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <p class="mb-0 text-black">
+                        Select how many users you expect to track each month
+                    </p>
+                    <button mat-stroked-button (click)="openExplainerDialog()">
+                        How do I decide?
+                    </button>
+                </div>
+
+                <h3>{{ selectedMTUAmount() / 1000 }}k MTU</h3>
+
+                <div style="padding-right: 10px">
+                    <mat-slider
+                        [min]="minMTUAmount()"
+                        [max]="maxMTUAmount()"
+                        step="1000"
+                        showTickMarks
+                        discrete
+                        class="w-100"
+                        [displayWith]="formatLabel"
+                    >
+                        <input
+                            matSliderThumb
+                            [value]="selectedMTUAmount()"
+                            (valueChange)="changeSelectedMTU($event)"
+                        />
+                    </mat-slider>
+                </div>
+
+                <mat-divider class="w-100 my-3"></mat-divider>
+            }
+
+            <div class="d-flex g-10 flex-column">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>
+                        {{ newPlan()?.name }}
+                        @if (newPlanSupportsMTU()) {
+                            <span>{{ selectedMTUAmount() / 1000 }}k MTU</span>
+                        }
+                        ,
+                        <span>{{ selectedSubscriptionTimePlan() | period }}</span>
+                    </span>
+                </div>
+                @if (newSubscriptionDetails(); as newSubscriptionDetails) {
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>Price</div>
+                        <div class="d-flex g-5 align-items-center">
+                            <span class="price fw-bold">
+                                {{
+                                    newSubscriptionDetails.flatAmount
+                                        | cents
+                                        | currency: newSubscriptionDetails.currency.toUpperCase()
+                                }}
+                                <span>/{{ newSubscriptionDetails.interval }}</span>
+                            </span>
+                            @if (newSubscriptionDetails.hasExtraCharge) {
+                                <span class="fw-bold">
+                                    @if (newSubscriptionDetails.extraCharge) {
+                                        {{
+                                            newSubscriptionDetails.extraCharge
+                                                | cents
+                                                | currency
+                                                    : newSubscriptionDetails.currency.toUpperCase()
+                                                    : 'symbol'
+                                                    : '1.0-6'
+                                        }}
+                                        <span>/MTU</span>
+                                    }
+                                </span>
+                            } @else {
+                                <span class="fw-bold">No MTU limits</span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (newPlanTotalDetails(); as details) {
+                <div class="d-flex align-items-center g-5 justify-content-between">
+                    <span>Total per {{ selectedSubscriptionTimePlan() }}</span>
+
+                    <span class="fw-bold">
+                        {{
+                            details?.total
+                                | cents
+                                | currency: details?.currency?.toUpperCase() ?? 'USD'
+                        }}
+                    </span>
+                </div>
+            }
+            <mat-divider class="w-100 my-3"></mat-divider>
+
+            <span>Next billing cycle details:</span>
+
+            @let details = newPlanBillingDetails();
+
+            @if (loadingNewPlanBillingDetails()) {
+                <div class="d-flex align-items-center justify-content-center">
+                    <mat-progress-spinner
+                        mode="indeterminate"
+                        [diameter]="30"
+                    ></mat-progress-spinner>
+                </div>
+            } @else {
+                <span>{{ details?.periodStart | date }} - {{ details?.periodEnd | date }}</span>
+
+                @if (details?.nextPaymentDate) {
+                    <span>Next payment date: {{ details?.nextPaymentDate | date }}</span>
+                }
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header style="max-height: 40px">
+                        <mat-panel-title>Invoice Details</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    @for (item of details?.items; track item) {
+                        <mat-divider class="w-100 my-3"></mat-divider>
+                        <div class="mt-10">
+                            <h6 class="mb-0">{{ item.description }}</h6>
+                            
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fs-14">Interval</span>
+                                <span class="fw-bold fs-14">
+                                    {{ item.interval }}
+                                </span>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fs-14">Quantity</span>
+                                <span class="fw-bold fs-14">
+                                    {{ (item.quantity | number) ?? 'N/A' }}
+                                </span>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fs-14">Amount</span>
+                                <span class="fw-bold fs-14">
+                                    {{
+                                        item.amount
+                                            | cents
+                                            | currency: selectedCurrency().toUpperCase()
+                                    }}
+                                </span>
+                            </div>
+
+                            @if (item.tiers.length) {
+                                <div class="mt-2">
+                                    <h4>Tiered Pricing:</h4>
+                                    <ul>
+                                        @for (tier of item.tiers; track tier) {
+                                            <li>
+                                                @if (tier.upTo) {
+                                                    <span class="fs-14">
+                                                        Up to
+                                                        <span class="fw-bold fs-14">
+                                                            {{ tier.upTo }}
+                                                        </span>
+                                                        units:
+                                                    </span>
+                                                }
+                                                @if (tier.unitAmount) {
+                                                    <span class="fs-14">
+                                                        Price:
+                                                        <span class="fw-bold fs-14">
+                                                            {{
+                                                                tier.unitAmount
+                                                                    | cents
+                                                                    | currency
+                                                                        : selectedCurrency().toUpperCase()
+                                                            }}
+                                                        </span>
+                                                        per unit
+                                                    </span>
+                                                }
+                                                @if (!tier.upTo && !tier.unitAmount) {
+                                                    <span class="fs-14">Tier details missing</span>
+                                                }
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    }
+                </mat-expansion-panel>
+
+                <mat-divider class="w-100 my-3"></mat-divider>
+
+                <div class="mb-2">
+                    <div class="d-flex justify-content-between">
+                        <span>Subtotal</span>
+                        <strong>
+                            {{
+                                details?.subtotal
+                                    | cents
+                                    | currency: selectedCurrency().toUpperCase()
+                            }}
+                        </strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Taxes</span>
+                        <strong>
+                            {{
+                                details?.taxes | cents | currency: selectedCurrency().toUpperCase()
+                            }}
+                        </strong>
+                    </div>
+                </div>
+
+                <mat-divider class="w-100 my-3"></mat-divider>
+
+                <div>
+                    <div class="d-flex justify-content-between">
+                        <span>Prorated net total due today</span>
+                        <strong>
+                            {{
+                                details?.total | cents | currency: selectedCurrency().toUpperCase()
+                            }}
+                        </strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <span>Total due on {{ details?.dueDate | date }}</span>
+                        <strong>
+                            {{
+                                details?.totalDueToday
+                                    | cents
+                                    | currency: selectedCurrency().toUpperCase()
+                            }}
+                        </strong>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

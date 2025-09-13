@@ -1,0 +1,39 @@
+@let optionPlaceholder = emptyOptionPlaceholder();
+@let label = filterLabel(); 
+@let hasSelectedOption = optionSelected();
+
+<mat-form-field class="ga-filter-field" tabindex="0" [ngClass]="{'empty-option-selected': hasSelectedOption}"
+>
+    @if (inputControl.value?.length || hasSelectedOption) {
+    <button
+        mat-icon-button
+        class="reset-filter-icon-button"
+        (click)="onResetClick($event, autoTrigger)"
+    >
+        <mat-icon>close</mat-icon>
+    </button>
+    }
+    <mat-label>{{ label }}</mat-label>
+    <input
+        type="text"
+        [placeholder]="label"
+        matInput
+        class="filter-input"
+        [size]="label.length"
+        [formControl]="inputControl"
+        [matAutocomplete]="auto"
+        #autoTrigger="matAutocompleteTrigger"
+        (focusout)="onFocusOut($event)"
+    />
+    <mat-autocomplete
+        autoActiveFirstOption
+        #auto="matAutocomplete"
+        (optionSelected)="onOptionSelected()"
+    >
+        @for (option of filteredOptions | async; track option) {
+        <mat-option [value]="option || optionPlaceholder" class="ga-filter-option">
+            {{ option || optionPlaceholder }}
+        </mat-option>
+        }
+    </mat-autocomplete>
+</mat-form-field>

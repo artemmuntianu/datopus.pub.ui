@@ -1,0 +1,88 @@
+<mat-card class="daxa-card bg-white border-none p-20 mb-10">
+    <mat-card-header class="d-flex justify-content-center mb-0">
+        <mat-card-title>How can we help you?</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="p-20">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <h5>Subject</h5>
+            <p>Summary of the problem you have.</p>
+            <mat-form-field appearance="outline" class="mb-20">
+                <mat-label>Subject</mat-label>
+                <input matInput autofocus formControlName="subject" required maxlength="200" [readonly]="submitted()"
+                />
+                @if (subject.invalid && (subject.dirty || subject.touched)) {
+                    <mat-error>
+                        @if (subject.hasError('required')) {
+                            Please add a subject heading.
+                        }
+                    </mat-error>
+                }
+            </mat-form-field>
+
+            <h5>Message</h5>
+            <p>
+                Describe the issue you're facing, along with any relevant information. Please be as
+                detailed and specific as possible.
+            </p>
+            <mat-form-field appearance="outline" class="mb-20">
+                <mat-label>Message</mat-label>
+                <textarea matInput formControlName="message" rows="5" required maxlength="5000" minlength="5" [readonly]="submitted()"></textarea>
+                @if (message.invalid && (message.dirty || message.touched)) {
+                    <mat-error>
+                        @if (message.hasError('required')) {
+                            Please add a message.
+                        }
+                    </mat-error>
+                }
+            </mat-form-field>
+
+            <div class="mb-25">
+                <h5>Attachments</h5>
+                <p>
+                    Upload up to 5 screenshots that might be relevant to the issue that you're
+                    facing
+                </p>
+                <file-upload
+                    class="file-uploader w-100"
+                    [control]="profilePhotoControl"
+                ></file-upload>
+            </div>
+
+            <div class="d-flex g-5 align-items-center">
+                <mat-slide-toggle formControlName="allowAccess" color="primary" [disabled]="submitted()">
+                    <span class="fs-14">Allow support access to your project</span>
+                </mat-slide-toggle>
+                <mat-chip class="chip-recommended">Recommended</mat-chip>
+            </div>
+            @if (!submitted() && !loading()) {
+                <div class="d-flex flex-column mb-20 mt-50 submit-button-wrapper">
+                    <button
+                        mat-flat-button
+                        type="submit"
+                        class="daxa"
+                        [disabled]="form.invalid"
+                    >
+                        <mat-icon>mail</mat-icon>
+                        Send Support Request
+                    </button>
+                    <p class="contact-info-message">
+                        We will contact you at <span class="fw-bold">{{ userEmail }}</span> <br>
+                        Please ensure emails from  support&#64;datopus.io are allowed
+                    </p>
+                </div>
+            } @else if (loading()) {
+                <div class="d-flex justify-content-center mb-20 mt-50">
+                    <mat-progress-spinner mode="indeterminate" [diameter]="30"></mat-progress-spinner>
+                </div>
+            } @else {
+                <div class="d-flex justify-content-center mb-20 mt-50">
+                    <div class="d-flex align-items-center justify-content-center mt-10" role="alert">
+                        <mat-icon>check_circle_outline</mat-icon>
+                        Support request submitted successfully! We'll be in touch soon.
+                    </div>
+                </div>
+            }
+        </form>
+    </mat-card-content>
+</mat-card>

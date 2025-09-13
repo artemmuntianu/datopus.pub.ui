@@ -1,0 +1,27 @@
+@if (bqError(); as error) {
+    <app-bq-api-error [error]="error"></app-bq-api-error>
+} @else {
+    <div class="table-container h-100">
+        <app-table-tile
+            tableClass="reports-table"
+            [enablePagination]="true"
+            [enableSort]="false"
+            [columns]="visibleColumns()"
+            [dataSource]="dataSource()"
+            [title]="'Events'"
+            titleTooltip="This table provides a detailed breakdown of user event statistics, helping you track and analyze event-level data.Use this table to gain insights into user behavior, identify trends, and optimize your application's performance."
+        >
+            <ng-container slot="header-items">
+                @if (loading()) {
+                    <div class="d-flex align-items-center justify-content-end g-5">
+                        <span>Loading...</span>
+                        <mat-progress-spinner
+                            mode="indeterminate"
+                            [diameter]="20"
+                        ></mat-progress-spinner>
+                    </div>
+                }
+            </ng-container>
+        </app-table-tile>
+    </div>
+}

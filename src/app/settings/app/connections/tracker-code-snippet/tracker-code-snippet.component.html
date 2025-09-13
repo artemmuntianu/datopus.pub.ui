@@ -1,0 +1,16 @@
+<mat-card class="daxa-card code-card border-radius bg-gray border-none d-block p-0">
+    <div class="m-0 d-flex align-items-center justify-content-end">
+        <button mat-button (click)="copyCode()" class="text-body">
+            <i class="material-symbols-outlined">content_copy</i>
+            &nbsp;{{ copyCodeBtnTitle() }}
+        </button>
+    </div>
+    <mat-card-content class="d-flex align-items-center p-0">
+        <pre
+            #codeBlock
+            [innerHTML]="snippet()"
+            class="text-black overflow-x-auto m-0"
+            style="padding: 0px 10px"
+        ></pre>
+    </mat-card-content>
+</mat-card>

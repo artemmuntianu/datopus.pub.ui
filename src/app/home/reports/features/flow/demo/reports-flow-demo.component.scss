@@ -1,0 +1,53 @@
+.mat-drawer-container {
+    min-height: calc(100vh - 119px);
+    background: #fff;
+
+    .mat-drawer {
+        padding: 10px;
+    }
+
+    .mat-drawer-content {
+        padding: 10px;
+    }
+
+    &.mat-drawer-transition {
+        .mat-drawer-content {
+            transition-duration: 0s !important;
+        }
+    }
+}
+
+:host ::ng-deep {
+    ng-date-range-picker mat-icon[mattooltip="Clear"] {
+        display: none;
+    }
+
+    #sankey {
+        background: #fff;
+
+        g.link {
+            cursor: pointer;
+            stroke: #e0edff;
+            mix-blend-mode: multiply;
+            stroke-opacity: 0.75;
+
+            &:hover {
+                stroke-opacity: 1;
+            }
+        }
+
+        rect.node {
+            cursor: pointer;
+        }
+
+        text {
+            text-shadow: 0px 0.8px 1px #fff;
+        }
+    }
+
+    .mat-mdc-card {
+        &.daxa-card {
+            padding: 0px;
+        }
+    }
+}

@@ -1,0 +1,45 @@
+<mat-card data-ds-feature="Dashboard.Tile.Features" class="daxa-card dashboard-card mb-25 pb-0 border-radius bg-white border-none d-block">
+    <mat-card-header>
+        <mat-card-title>
+            <h5 class="mb-0">
+                Features
+            </h5>
+        </mat-card-title>
+        <mat-card-subtitle>
+            Last 7 Days
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="dashboard-table">
+            <div class="table-responsive">
+                <table mat-table matSort matSortActive="actions" matSortDirection="desc" matSortDisableClear="true" [dataSource]="dataSource">
+
+                    <ng-container matColumnDef="feature">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Feature
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.feature}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Actions
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.actions | shortNumber}}
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="['feature', 'actions']; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['feature', 'actions'];"></tr>
+
+                </table>
+            </div>
+        </div>
+        <div class="links">
+            <a routerLink="/reports/features/usage-demo">Go to Usage Report</a>
+        </div>
+    </mat-card-content>
+</mat-card>

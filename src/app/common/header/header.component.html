@@ -1,0 +1,87 @@
+<header #header class="header-area bg-white transition" [ngClass]="{ sticky: isSticky }">
+    <div class="d-md-flex align-items-center justify-content-between">
+        <div class="header-left-side d-flex align-items-center">
+            <div class="burger-menu cursor-pointer transition d-xl-none">
+                <span class="top-bar d-block bg-black transition"></span>
+                <span class="middle-bar d-block bg-black transition"></span>
+                <span class="bottom-bar d-block bg-black transition"></span>
+            </div>
+            @if (breadCrumbInfo(); as breadcrumbInfo) {
+                <app-breadcrumb
+                    [path]="breadcrumbInfo.path"
+                    [description]="breadcrumbInfo?.description"
+                ></app-breadcrumb>
+            }
+        </div>
+        <ul class="header-right-side d-flex align-items-center mt-0 mb-0 pl-0 list-unstyled">
+            <li class="position-relative transition fw-medium">
+                <a
+                    class="d-flex align-items-center"
+                    matTooltip="Support Request"
+                    routerLink="/support-request"
+                    aria-label="Support Request"
+                >
+                    <i class="material-symbols-outlined fs-20">help</i>
+                </a>
+            </li>
+            <li>
+                @let user = user$ | async;
+
+                <button mat-button [matMenuTriggerFor]="profileMenu" class="profile-menu-btn">
+                    <img
+                        [src]="user?.picture || defaultProfileImageUrl"
+                        alt="profile-image"
+                        [height]="40"
+                        [width]="40"
+                    />
+                    <span class="status d-inline-block rounded-circle position-absolute"></span>
+                </button>
+                <mat-menu class="profile-menu-dropdown" #profileMenu="matMenu" xPosition="before">
+                    <div>
+                        <div class="menu-header d-flex align-items-center">
+                            <img
+                                [src]="user?.picture || defaultProfileImageUrl"
+                                [height]="40"
+                                [width]="40"
+                                alt="profile-image"
+                            />
+                            <div class="title">
+                                {{ user?.full_name }}
+                                <span class="designation d-block text-body">
+                                    {{ user?.role }}
+                                </span>
+                            </div>
+                        </div>
+                        <ul class="menu-body pl-0 mb-0 mt-0 list-unstyled">
+                            <li class="position-relative transition fw-medium">
+                                <i class="material-symbols-outlined">manage_accounts</i>
+                                My Account
+                                <a
+                                    routerLink="/settings/account"
+                                    class="link-btn d-block position-absolute"
+                                ></a>
+                            </li>
+                            <li class="position-relative transition fw-medium">
+                                <i class="material-symbols-outlined">payment</i>
+                                Subscription
+                                <a
+                                    routerLink="/settings/subscription"
+                                    class="link-btn d-block position-absolute"
+                                ></a>
+                            </li>
+                            <li class="position-relative transition fw-medium">
+                                <i class="material-symbols-outlined">logout</i>
+                                Logout
+                                <a
+                                    (click)="onLogout()"
+                                    href="javascript:void(0)"
+                                    class="link-btn d-block position-absolute"
+                                ></a>
+                            </li>
+                        </ul>
+                    </div>
+                </mat-menu>
+            </li>
+        </ul>
+    </div>
+</header>

@@ -1,0 +1,33 @@
+<app-getting-started-page>
+    <div class="step-content">
+        <h3>Link BigQuery with Analytics</h3>
+        <div class="alert alert-d">
+            Proceed to the next step if you already have Google BigQuery and Google Analytics linked.
+        </div>
+        <p>Now that you have both Analytics and BigQuery set up, let's link them together.</p>
+        <h4>Link a Google Analytics 4 property to BigQuery</h4>
+        <ol>
+            <li>
+                <p>In <strong><a href="https://analytics.google.com/analytics/web/#/?pagename=admin&utm_source=gahc&utm_medium=dlinks" target="_blank" class="text-d">Admin</a></strong>, under <em>Product Links</em>, click <a href="https://analytics.google.com/analytics/web/#/?pagename=admin-integrations-big-query&utm_source=gahc&utm_medium=dlinks" target="_blank" class="text-d"><strong>BigQuery Links</strong></a>.</p>
+                <div role="alert" class="alert alert-warning text-black" style="font-weight: normal;">
+                    <ul>
+                        <li>You must be an <a href="https://support.google.com/analytics/answer/9305587" target="_blank" class="text-d">Editor or above</a> at the property level to link an Analytics property to BigQuery.</li>
+                        <li>You must also use an email address that has <a href="https://cloud.google.com/bigquery/docs/access-control-primitive-roles" target="_blank" class="text-d">OWNER</a> access to the BigQuery project.</li>
+                    </ul>
+                </div>
+            </li>
+            <li>Click <strong>Link</strong>.</li>
+            <li>Click <strong>Choose a BigQuery project</strong> to display a list of projects for which you have access.</li>
+            <li>Select a project from the list, then click <strong>Confirm</strong>.</li>
+            <li>Select a location for the data.</li>
+            <li>Click <strong>Next</strong>.</li>
+            <li>Select <strong>Configure data streams and events</strong> to select which data streams to include with the export.</li>
+            <li>Click <strong>Done</strong>.</li>
+            <li>Select <strong>Daily</strong> (once a day) export of data.</li>
+            <li>Click <strong>Next</strong>.</li>
+            <li>Review your settings, then click <strong>Submit</strong>.</li>
+        </ol>
+        <h4>When you start seeing data</h4>
+        <p>Once the linkage is complete, data should start flowing to your BigQuery project within 24 hours.<br/>One file will be exported each day that contains the previous day's data. Generally, during early afternoon in the time zone you set for reporting.</p>
+    </div>
+</app-getting-started-page> 

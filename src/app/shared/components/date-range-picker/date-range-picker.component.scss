@@ -1,0 +1,11 @@
+@use "@angular/material" as mat;
+
+.date-range-picker {
+    @include mat.form-field-density(-1);
+}
+
+:host::ng-deep {
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+        background-color: white !important;
+    }
+}

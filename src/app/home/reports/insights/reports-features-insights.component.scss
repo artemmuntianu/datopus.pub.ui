@@ -1,0 +1,28 @@
+.mat-drawer-container {
+    min-height: calc(100vh - 119px);
+    background: #fff;
+
+    .mat-drawer {
+        padding: 10px;
+    }
+
+    .mat-drawer-content {
+        padding: 10px;
+    }
+
+    &.mat-drawer-transition {
+        .mat-drawer-content {
+            transition-duration: 0s !important;
+        }
+    }
+
+    .info-list {
+        li {
+            margin-bottom: 14px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

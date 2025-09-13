@@ -1,0 +1,251 @@
+<div class="sidebar-area">
+    <div class="logo">
+        <a routerLink="/" class="d-flex align-items-center">
+            <img src="images/logo.svg" width="30" />
+            <span class="fw-semibold">Datopus</span>
+        </a>
+    </div>
+    <ng-scrollbar>
+        <div class="sidebar-inner">
+            <div class="sidebar-menu">
+                <mat-accordion *ngIf="data.org">
+                    <a routerLink="/" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <i class="ri-home-8-line"></i>
+                        <span class="title">Home</span>
+                    </a>
+                    <mat-expansion-panel *ngIf="showGettingStarted" [expanded]="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <i class="material-symbols-outlined">rocket_launch</i>
+                                Getting Started
+                                <span class="daxa-badge daxa-progress-badge ms-auto">{{ progress | number:'1.0-0' }}%</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="progress-bar mb-2">
+                            <div class="progress" [style.width.%]="progress"></div>
+                        </div>
+                        <ul class="sidebar-sub-menu getting-started-steps">
+                            <li class="sidemenu-item" [class.completed]="isStepCompleted('signup')">
+                                <a [routerLink]="null"
+                                   [class.disabled]="isStepCompleted('signup')"
+                                   routerLinkActive="active"
+                                   class="sidemenu-link d-flex align-items-center">
+                                    <i class="material-symbols-outlined me-2">{{ isStepCompleted('signup') ? 'check_circle' : 'radio_button_unchecked' }}</i>
+                                    &nbsp;
+                                    Sign Up
+                                </a>
+                            </li>
+                            <li class="sidemenu-item" [class.completed]="isStepCompleted('setup-analytics')">
+                                <a [routerLink]="'/getting-started/setup-analytics'"
+                                   routerLinkActive="active"
+                                   class="sidemenu-link d-flex align-items-center">
+                                    <i class="material-symbols-outlined me-2">{{ isStepCompleted('setup-analytics') ? 'check_circle' : 'radio_button_unchecked' }}</i>
+                                    &nbsp;
+                                    Setup Analytics
+                                </a>
+                            </li>
+                            <li class="sidemenu-item" [class.completed]="isStepCompleted('setup-bigquery')">
+                                <a [routerLink]="'/getting-started/setup-bigquery'"
+                                   routerLinkActive="active"
+                                   class="sidemenu-link d-flex align-items-center">
+                                    <i class="material-symbols-outlined me-2">{{ isStepCompleted('setup-bigquery') ? 'check_circle' : 'radio_button_unchecked' }}</i>
+                                    &nbsp;
+                                    Setup BigQuery
+                                </a>
+                            </li>
+                            <li class="sidemenu-item" [class.completed]="isStepCompleted('link-bigquery')">
+                                <a [routerLink]="'/getting-started/link-bigquery'"
+                                   routerLinkActive="active"
+                                   class="sidemenu-link d-flex align-items-center">
+                                    <i class="material-symbols-outlined me-2">{{ isStepCompleted('link-bigquery') ? 'check_circle' : 'radio_button_unchecked' }}</i>
+                                    &nbsp;
+                                    Link BigQuery
+                                </a>
+                            </li>
+                            <li class="sidemenu-item" [class.completed]="isStepCompleted('connect-analytics')">
+                                <a [routerLink]="'/getting-started/connect-analytics'"
+                                   routerLinkActive="active"
+                                   class="sidemenu-link d-flex align-items-center">
+                                    <i class="material-symbols-outlined me-2">{{ isStepCompleted('connect-analytics') ? 'check_circle' : 'radio_button_unchecked' }}</i>
+                                    &nbsp;
+                                    Connect Analytics
+                                </a>
+                            </li>
+                            <li class="sidemenu-item" [class.completed]="isStepCompleted('connect-bigquery')">
+                                <a [routerLink]="'/getting-started/connect-bigquery'"
+                                   routerLinkActive="active"
+                                   class="sidemenu-link d-flex align-items-center">
+                                    <i class="material-symbols-outlined me-2">{{ isStepCompleted('connect-bigquery') ? 'check_circle' : 'radio_button_unchecked' }}</i>
+                                    &nbsp;
+                                    Connect BigQuery
+                                </a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [expanded]="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <i class="material-symbols-outlined">dashboard</i>
+                                Dashboards
+                            </mat-panel-title>
+
+                        </mat-expansion-panel-header>
+                        <ul class="sidebar-sub-menu">
+                            <div class="dashboard-link-list">
+                            <li class="sidemenu-item">
+                                <app-sidebar-submenu-link [title]="'Google Analytics'"
+                                                          route='/dashboard/ga' />
+                            </li>
+                            @if ((user.orgSubscription | hasSubscription: [PriceLookupKey.OptimizeMonthly])) {
+                            @for (dashboard of dashboardStore.dashboards(); track dashboard.id) {
+                            <li class="sidemenu-item">
+                                <app-sidebar-submenu-link [title]="dashboard.name"
+                                                          [route]="'/dashboard/' + dashboard.id" />
+                            </li>
+                            }
+                            } @else if (lockContentService.areLocksVisible()) {
+                            <li class="sidemenu-item">
+                                <app-sidebar-submenu-link [title]="'Google Big Query'"
+                                                          [route]="'/dashboard/1'" />
+                            </li>
+                            }
+</div>
+                            @if((user.orgSubscription | hasSubscription: [PriceLookupKey.OptimizeMonthly])) {
+                                <div class="d-flex align-items-center w-100 p-5 justify-content-center">
+                                    <button mat-button matTooltip="Add New Dashboard" matTooltipPosition="above" class="p-5 add-new-dashboard-button" (click)="addDashboard()">
+                                        <div class="d-flex align-items-center">
+                                            <i class="material-symbols-outlined add-new-dashboard-button-icon">add</i>
+                                            <span>Dashboard</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            }                               
+                        </ul>
+                    </mat-expansion-panel>
+                    @if (data.org.isDemo) {
+                        <div class="mat-expansion-panel">
+                            <div class="mat-expansion-panel-header">
+                                <div class="mat-content">
+                                    <div class="mat-expansion-panel-header-title">
+                                        <i class="material-symbols-outlined">keyboard_command_key</i>
+                                        <span class="title">Feature Reports</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mat-expansion-panel-content">
+                                <div class="mat-expansion-panel-body">
+                                    <ul class="sidebar-sub-menu">
+                                        <li class="sidemenu-item">
+                                            <app-sidebar-submenu-link
+                                                title="Flow"
+                                                route="/reports/features/flow-demo"
+                                            />
+                                        </li>
+                                        <li class="sidemenu-item">
+                                            <app-sidebar-submenu-link
+                                                title="Usage"
+                                                route="/reports/features/usage-demo"
+                                            />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    } @else {
+                        <div
+                            *ngIf="(user.orgSubscription | hasSubscription: [PriceLookupKey.OptimizeMonthly]) || lockContentService.areLocksVisible()"
+                            class="mat-expansion-panel"
+                        >
+                            <div class="mat-expansion-panel-header">
+                                <div class="mat-content">
+                                    <div class="mat-expansion-panel-header-title">
+                                        <i class="material-symbols-outlined">keyboard_command_key</i>
+                                        <span class="title">Feature Reports</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mat-expansion-panel-content">
+                                <div class="mat-expansion-panel-body">
+                                    <ul class="sidebar-sub-menu">
+                                        <li class="sidemenu-item">
+                                            <app-sidebar-submenu-link
+                                                title="Flow"
+                                                route="/reports/features/flow"
+                                            />
+                                        </li>
+                                        <li class="sidemenu-item">
+                                            <app-sidebar-submenu-link
+                                                title="Usage"
+                                                route="/reports/features/usage"
+                                            />
+                                        </li>
+                                        <li class="sidemenu-item">
+                                            <app-sidebar-submenu-link
+                                                title="Events"
+                                                route="/reports/features/events"
+                                            />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (data.org.isDemo) {
+                        <app-sidebar-menu-link title="Insights" route="/reports/insights" icon="insights" />
+                    }
+
+                    <app-sidebar-menu-link title="Session Replay" icon="videocam"  route="/session-replay"/>
+
+                    <app-sidebar-menu-link title="Ask Data" icon="bubble_chart"  route="/ask-data"/>
+
+                    <a routerLink="/reports/externals" class="sidebar-menu-link" routerLinkActive="active">
+                        <i class="material-symbols-outlined">pie_chart</i>
+                        <span class="title">External Reports</span>
+                    </a>
+
+
+
+                    @if (!data.org.isDemo) {
+                        <!-- UNCOMMENT ONE BY ONE ONCE READY TO ENABLE ORGANIZATION MANAGEMENT
+                        <app-sidebar-menu-link
+                            *ngIf="
+                                user.orgSubscription === SubscriptionType.premium ||
+                                lockContentService.areLocksVisible()
+                            "
+                            title="Organizations"
+                            route="/admin/organizations"
+                            icon="business"
+                        />
+                        <app-sidebar-menu-link
+                            *ngIf="
+                                user.orgSubscription === SubscriptionType.premium ||
+                                lockContentService.areLocksVisible()
+                            "
+                            title="Users"
+                            route="/admin/users"
+                            icon="people"
+                        />
+                        <app-sidebar-menu-link
+                            *ngIf="
+                                user.orgSubscription === SubscriptionType.premium ||
+                                lockContentService.areLocksVisible()
+                            "
+                            title="Monitors"
+                            route="/admin/monitors"
+                            icon="monitor_heart"
+                        />
+                        -->
+                        <app-sidebar-menu-link
+                            title="Settings"
+                            route="/settings/app"
+                            icon="settings"
+                        />
+                    }
+                </mat-accordion>
+            </div>
+        </div>
+    </ng-scrollbar>
+    <app-sidebar-upgrade-plan
+        *ngIf="(user.orgSubscription | hasSubscription: [PriceLookupKey.CollectMonthly, PriceLookupKey.CollectYearly]: true) && user.role === UserRole.HomeAdmin"
+    />
+</div>

@@ -1,0 +1,55 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+
+::ng-deep .reports-table {
+    .mat-mdc-table {
+        .mat-mdc-header-cell {
+            padding: 8px !important;
+
+            &:last-child {
+                ::ng-deep {
+                    .mat-sort-header-container {
+                        justify-content: right !important;
+                    }
+                }
+            }
+        }
+
+        .mat-mdc-cell {
+            padding: 8px !important;
+
+            &:last-child {
+                text-align: right !important;
+            }
+        }
+    }
+
+    .mat-mdc-paginator {
+        padding: {
+            top: 15px;
+            left: 20px;
+            right: 20px;
+        }
+    }
+}
+
+::ng-deep {
+    .mat-mdc-card {
+        &.daxa-card {
+            &.dashboard-card,
+            &.table-tile-card {
+            
+                .mat-mdc-card-content {
+                    height: 100% !important;
+                    margin: {
+                        left: 0px;
+                        right: 0px;
+                    }
+                }
+            }
+        }
+    }
+}

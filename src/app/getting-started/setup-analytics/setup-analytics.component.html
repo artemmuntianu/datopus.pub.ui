@@ -1,0 +1,97 @@
+<app-getting-started-page>
+    <div class="step-content">
+        <h3>Set up Google Analytics for a website or app</h3>
+        <div class="alert alert-d">
+            Proceed to the next step if you already have Google Analytics set up.
+        </div>
+
+        <p>Discover how to set up Google Analytics for your website or app by creating a Google Analytics 4 property, adding a data stream, and adding your Google Analytics code.</p>
+
+        <h4 id="account">Create an Analytics account</h4>
+        <p>Your first step is to set up an Analytics account, unless you already have one. Skip to <a href="#property">creating a property</a> if so.</p>
+
+        <ol>
+            <li>Go to <a href="https://analytics.google.com" target="_blank" class="text-d">https://analytics.google.com</a>.</li>
+            <li>If this is your first time using Google Analytics, click <strong>Start Measuring</strong></li>
+            <li>Provide an account name</li>
+            <li>Click <strong>Next</strong> to add the first property to the account.</li>
+        </ol>
+
+        <h4 id="property">Create a new Google Analytics 4 property</h4>
+        <p>You need the <a href="https://support.google.com/analytics/answer/9305587" target="_blank" class="text-d">Editor role</a> to add properties to a Google Analytics account. If you created this account, you automatically have the Editor role.</p>
+
+        <p>To create a property:</p>
+        <ol>
+            <li>Are you continuing from "Create an Analytics account", above? If so, skip to step 2. Otherwise, in <a href="https://support.google.com/analytics/answer/6132368" target="_blank" class="text-d">Admin</a>, click <strong>Create</strong>, then select <strong>Property</strong>.</li>
+            <li>Enter a name for the property (e.g. "My Business, Inc website") and select the reporting time zone and currency.</li>
+            <li>Click <strong>Next.</strong> Select your industry category and business size.</li>
+            <li>Click <strong>Next</strong>. Select how you intend to use Google Analytics.</li>
+            <li>Click <strong>Create</strong> and (if you are setting up a new account) accept the Analytics Terms of Service and the Data Processing Amendment.</li>
+            <li>Continue to <a href="#stream">Add a data stream</a> to start collecting data.</li>
+        </ol>
+
+        <h4 id="stream">Add a data stream</h4>
+        <ol>
+            <li>
+                Are you continuing from "Create a property", above? <span class="green-text">If so, skip to step 2</span>. Otherwise,
+                <ol>
+                    <li>In <strong><a href="https://analytics.google.com/analytics/web/#/?pagename=admin&utm_source=gahc&utm_medium=dlinks" target="_blank" class="text-d">Admin</a></strong>, under <em>Data collection and modification</em>, click <strong><a href="https://analytics.google.com/analytics/web/#/?pagename=admin-streams&utm_source=gahc&utm_medium=dlinks" target="_blank" class="text-d">Data Streams</a>.</strong></li>
+                    <li>Click <strong>Add stream</strong>.</li>
+                </ol>
+            </li>
+            <li>
+                Click <strong>Web</strong>.
+                <ol>
+                    <li>Enter the URL of your primary website, e.g., "example.com", and a Stream name, e.g. "Example, Inc. (web stream)".</li>
+                    <li>You have the option to enable or disable <a href="https://support.google.com/analytics/answer/9216061" target="_blank" class="text-d">enhanced measurement</a>. Enhanced measurement automatically collects page views and other events. Once the data stream has been created, you can always go back and <a href="https://support.google.com/analytics/answer/9216061#enable_disable" target="_blank" class="text-d">individually disable the enhanced measurement events you don't want to collect.</a> So, we recommend that you enable enhanced measurement now.</li>
+                    <li>Click <strong>Create stream</strong>.</li>
+                </ol>
+            </li>
+        </ol>
+
+        <h4 id="setup-datacollection">Set up data collection</h4>
+        <p>To begin seeing data in your new Google Analytics 4 property, you'll need to do one of the following:</p>
+
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Add the Google tag directly to your web pages</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>You need access to the HTML for your web pages. Ask your web developer to perform these steps if you're unable to complete the steps yourself.</p>
+                <ol>
+                    <li>
+                        In <strong><a href="https://analytics.google.com/analytics/web/#/?pagename=admin&utm_source=gahc&utm_medium=dlinks" target="_blank" class="text-d">Admin</a></strong>, under <em>Data collection and modification</em>, click <strong><a href="https://analytics.google.com/analytics/web/#/?pagename=admin-streams&utm_source=gahc&utm_medium=dlinks" target="_blank" class="text-d">Data streams</a>.</strong>
+                        <div role="alert" class="alert alert-warning text-black" style="font-weight: normal;">
+                            <strong>Note</strong>: The previous link opens to the last Analytics property you accessed. You can <a href="https://support.google.com/analytics/answer/12813202" target="_blank" class="text-d">change the property</a> using the property selector. You must be an <a href="https://support.google.com/analytics/answer/9305587" target="_blank" class="text-d">Editor or above</a> at the property level to create.
+                        </div>
+                    </li>
+                    <li>Click <strong>Web</strong>.</li>
+                    <li>Click the data stream for your website.</li>
+                    <li>Under <em>Google tag</em>, click <strong>View tag instructions</strong>.</li>
+                    <li>
+                        On the <em>Installation instructions</em> page, select <strong>Install manually</strong>:
+                        <ul>
+                            <li>
+                                On the screen, you'll see the JavaScript snippet for your account's Google tag. Your Google tag is the entire section of code that appears, beginning with:
+                                <br><br>
+                                <code>&lt;!-- Google tag (gtag.js) --&gt;</code>
+                                <br><br>
+                                and ending with
+                                <br><br>
+                                <code>&lt;/script&gt;</code>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Paste your Google tag immediately after the <code>&lt;head&gt;</code> on each page of your website.</p>
+                <p>Data collection may take up to 30 minutes to begin. You can then use the <a href="https://support.google.com/analytics/answer/9271392" target="_blank" class="text-d">Realtime report</a> to verify that you're receiving data.</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Add your tag using Google Tag Manager</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>For basic data collection, follow the <a href="https://support.google.com/tagmanager/answer/9442095" target="_blank" class="text-d">Google Tag Manager help center instructions</a> to add the <em>Google Analytics: GA4 Configuration</em> tag.</p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</app-getting-started-page> 

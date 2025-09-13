@@ -1,0 +1,46 @@
+@import './mixins.scss';
+
+.filters-loading-text {
+    height: var(--ga-filter-field-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.load-more-action-container {
+    height: 20px;
+    padding: 20px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modify-columns-state-container {
+    gap: 10px;
+    padding: 0 20px;
+}
+
+.load-more-button {
+    @include link-styled-button;
+    white-space: nowrap;
+}
+
+.header-content-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
+}
+
+.filter-container {
+    @include typography-thin-scroll;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    min-width: 0;
+}
+
+.filter-list-container {
+    gap: 5px;
+    padding: 5px;
+}

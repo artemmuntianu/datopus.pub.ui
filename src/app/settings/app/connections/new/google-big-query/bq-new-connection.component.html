@@ -1,0 +1,120 @@
+<mat-stepper #stepper orientation="horizontal" [linear]="true" class="p-10">
+    <mat-step label="Authorization" editable="false">
+        <div *ngIf="curStep == 1" class="mb-10">
+            <div class="col-6 m-auto">
+                <p class="text-black text-center" style="font-size: 16px">
+                    Authorize access to your Google Big Query data that will be associated with your
+                    organization.
+                </p>
+                <div class="d-flex justify-content-center">
+                    <button (click)="step1_Authorize()" mat-button class="btn w-auto">
+                        Authorize
+                    </button>
+                </div>
+            </div>
+        </div>
+    </mat-step>
+    <mat-step label="Datasource" editable="false">
+        @if (loadingProjects()) {
+            <div class="d-flex justify-content-center">
+                <mat-progress-spinner mode="indeterminate" [diameter]="50"></mat-progress-spinner>
+            </div>
+        } @else if (data.datasets.length === 0) {
+            <mat-card class="empty-properties-card">
+                <mat-card-content class="card-content">
+                    <mat-icon class="warning-icon">warning</mat-icon>
+
+                    <h3 class="card-title">No Google Big Query Data Source Found</h3>
+
+                    <p class="card-text">
+                        Your Big Query account is missing the necessary setup to continue. This could be due to:
+                    </p>
+
+                    <ol class="card-list">
+                        <li>
+                            You have recently linked Google Big Query to Google Analytics.
+                            <ul class="card-list">
+                                <li>Try again after tommorrow mid-day. Usually the data appears in Google Big Query by that time.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Your current account does not have access to the required data.
+                            <ul class="card-list">
+                                <li>Try signing in with another account.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            You haven't set up Google Big Query yet.
+                            <ul class="card-list">
+                                <li>Follow <a href="https://app.datopus.io/getting-started/setup-bigquery" target="_blank" class="text-d">this guide</a> to set up Google Big Query and refresh this page once done.</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <div class="button-container">
+                        <button
+                            (click)="selectAnotherAccount()"
+                            mat-flat-button
+                            class="primary-button"
+                        >
+                            Select Another Account
+                        </button>
+
+                        <button (click)="refreshPage()" mat-stroked-button class="secondary-button">
+                            Refresh Page
+                        </button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        } @else {
+            <div *ngIf="curStep == 2" class="mb-10">
+                <div class="col-6 m-auto">
+                    <p class="text-black text-center" style="font-size: 16px">
+                        Select Google Big Query dataset that will be associated with your organization.
+                    </p>
+                    <p>
+                        <mat-form-field>
+                            <mat-label>Google Big Query dataset</mat-label>
+                            <mat-select
+                                [(ngModel)]="selectedBQDataset"
+                                [disabled]="!data.datasets.length"
+                            >
+                                <mat-option *ngFor="let x of data.datasets" [value]="x">
+                                    {{ x.friendlyName ?? x.id }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </p>
+                    <div class="d-flex justify-content-center">
+                        <button
+                            (click)="step2_onNextClick()"
+                            mat-button
+                            class="btn w-auto"
+                            [disabled]="!selectedBQDataset"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </mat-step>
+    <mat-step label="Finish" editable="false">
+        <div *ngIf="curStep == 3" class="confirm-area">
+            <div class="d-table">
+                <div class="d-table-cell">
+                    <div class="d-form m-auto border-radius bg-white">
+                        <div class="title text-center">
+                            <p class="m-auto text-success">Congrats! Your Google BigQuery has been connected successfully.</p>
+                        </div>
+                        <div class="admin text-center">
+                            <div class="logo position-relative text-success rounded-circle">
+                                <i class="material-symbols-outlined">done</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-step>
+</mat-stepper>

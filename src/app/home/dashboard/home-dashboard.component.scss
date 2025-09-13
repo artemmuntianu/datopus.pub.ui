@@ -1,0 +1,77 @@
+::ng-deep {
+    .mat-mdc-card {
+        &.daxa-card {
+            &.dashboard-card,
+            &.table-tile-card {
+                .mat-mdc-card-subtitle {
+                    color: var(--bodyColor);
+                    font-size: 0.8em;
+                }
+
+                .mat-mdc-card-content {
+                    height: auto !important;
+                    margin: {
+                        left: -20px;
+                        right: -20px;
+                    }
+                    .dashboard-table {
+                        .table-responsive {
+                            height: 332px;
+                            overflow: auto;
+
+                            &::-webkit-scrollbar {
+                                width: 8px;
+                                height: 8px;
+                            }
+
+                            &::-webkit-scrollbar-track {
+                                background-color: var(--whiteColor);
+                            }
+
+                            &::-webkit-scrollbar-thumb {
+                                background: #ebebeb;
+                            }
+                        }
+
+                        .mat-mdc-table {
+                            .mat-mdc-header-cell {
+                                padding: {
+                                    top: 8px;
+                                    bottom: 8px;
+                                }
+
+                                &:last-child {
+                                    ::ng-deep {
+                                        .mat-sort-header-container {
+                                            justify-content: right;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .mat-mdc-cell {
+                                padding: {
+                                    top: 8px;
+                                    bottom: 8px;
+                                }
+
+                                &:last-child {
+                                    text-align: right;
+                                }
+                            }
+                        }
+                    }
+
+                    .links {
+                        padding: 10px 20px;
+                        text-align: right;
+
+                        a {
+                            color: var(--daxaColor)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

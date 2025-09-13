@@ -1,0 +1,53 @@
+<div class="confirm-activation-area">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="daxa-form ml-auto mr-auto border-radius bg-white">
+                <ng-container [ngSwitch]="layout">
+                    <ng-container *ngSwitchCase="'success'">
+                        <div class="title text-center">
+                            <h3>
+                                Welcome to Datopus
+                            </h3>
+                        </div>
+                        <div class="admin text-center">
+                            <div class="logo position-relative text-success rounded-circle">
+                                <i class="material-symbols-outlined">
+                                    done
+                                </i>
+                            </div>
+                            <span class="d-block fw-medium">
+                                Your account is now <span class="text-success">activated!</span>
+                            </span>
+                        </div>
+                        <a routerLink="/auth" mat-button class="btn">
+                            Go to Sign In
+                        </a>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'error'">
+                        <div class="title text-center">
+                            <h3>
+                                Something went wrong 
+                            </h3>
+                        </div>
+                        <div class="admin text-center">
+                            <div class="logo position-relative text-warning rounded-circle">
+                                <i class="material-symbols-outlined">
+                                    warning
+                                </i>
+                            </div>
+                            <span class="d-block fw-medium">
+                                Your account is <span class="text-warning">not activated!</span>
+                            </span>
+                            <span class="d-block fw-medium">
+                                {{error}}
+                            </span>
+                        </div>
+                        <a routerLink="/auth/sign-up" mat-button class="btn">
+                            Go to Sign Up
+                        </a>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

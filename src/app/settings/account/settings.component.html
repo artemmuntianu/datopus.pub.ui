@@ -1,0 +1,22 @@
+<mat-card class="daxa-card settings-card mb-25 border-radius bg-white border-none d-block">
+    <mat-card-content>
+        <ul class="pl-0 mt-0 list-unstyled">
+            <li class="d-inline-block">
+                <a routerLink="/settings/account" mat-button routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    My Profile
+                </a>
+            </li>
+            <li class="d-inline-block">
+                <a routerLink="/settings/account/change-email" mat-button routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    Change Email
+                </a>
+            </li>
+            <li class="d-inline-block">
+                <a routerLink="/settings/account/change-password" mat-button routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    Change Password
+                </a>
+            </li>
+        </ul>
+        <router-outlet />
+    </mat-card-content>
+</mat-card>

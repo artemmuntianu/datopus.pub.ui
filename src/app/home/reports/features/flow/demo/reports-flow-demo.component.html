@@ -1,0 +1,65 @@
+<div class="alert alert-bg-d text-md d-flex justify-content-between align-items-center" *ngIf="isAlertVisible.reportExplanation">
+    User journey map will highlight important touchpoints, help you understand where visitors enter, how often users navigate to a different feature, and the final action a user takes in a journey.
+    <button type="button" class="close bg-transparent text-white p-0 border-none" (click)="isAlertVisible.reportExplanation = false">
+        <i class="ri-close-line"></i>
+    </button>
+</div>
+
+<mat-drawer-container hasBackdrop="false">
+    <mat-drawer-content data-ds-feature="Report.Flow.Main">
+        <div style="text-align: right; height: 50px;">
+            <button mat-fab class="daxa"
+                    style="margin-bottom: 10px; box-shadow: none; height: 30px; width: 30px"
+                    (click)="onBtnClick_ShowHideSettingsPane()"
+                    [style.display]="drawer.opened ? 'none' : 'inline-flex'">
+                <mat-icon>settings</mat-icon>
+            </button>
+        </div>
+        <mat-card class="daxa-card mb-25 border-radius bg-white border-none d-block">
+            <mat-card-content>
+                <figure id="sankey" class="m-0"></figure>
+            </mat-card-content>
+        </mat-card>
+    </mat-drawer-content>
+    <mat-drawer data-ds-feature="Report.Flow.Filters" #drawer mode="side" opened="true" position="end">
+        <ng-scrollbar>
+            <span class="lh-30"></span>
+            <button mat-fab class="daxa"
+                    style="margin-bottom: 10px; box-shadow: none; height: 30px; width: 30px; float: right"
+                    (click)="onBtnClick_ShowHideSettingsPane()"
+                    [style.display]="drawer.opened ? 'inline-flex' : 'none'">
+                <mat-icon>close</mat-icon>
+            </button>
+            <div class="clear-both">
+                <mat-divider class="mb-10"></mat-divider>
+                <div class="mat-mdc-subheader mb-10">Filter</div>
+                <ng-date-range-picker class="d-block mb-10" [selectedDates]="selectedDateRange" (onDateSelectionChanged)="onDateRangeChanged($event)" (dateListOptions)="dateListOptions($event)"></ng-date-range-picker>
+                <mat-form-field *ngIf="user.orgType == 'b2b'" class="mb-10">
+                    <mat-label>Organizations</mat-label>
+                    <mat-select multiple (selectionChange)="onFilterChanged()" [(ngModel)]="selectedPartnerOrgs">
+                        <mat-option *ngFor="let x of data.partnerOrgs" [value]="x.name">{{ x.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field *ngFor="let dim of data.dims | keyvalue" class="mb-10">
+                    <mat-label>{{dim.value.ui_name}}</mat-label>
+                    <mat-select multiple (selectionChange)="onFilterChanged()" [(ngModel)]="selectedDims[dim.value.col_name]">
+                        <mat-option *ngFor="let x of dim.value.values" [value]="x">{{ x }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-divider class="mb-10"></mat-divider>
+                <div class="mat-mdc-subheader mb-10">Diagram</div>
+                <mat-form-field class="mb-10">
+                    <mat-label>Metric</mat-label>
+                    <mat-select (selectionChange)="onDiagramMetricChanged()" [(ngModel)]="selectedDiagramMetric">
+                        <mat-option value="actions">Actions, sum</mat-option>
+                        <mat-option value="sessions">Sessions, sum</mat-option>
+                        <mat-option value="users">Users, sum</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="alert alert-bg-warning" *ngIf="isAlertVisible.filtersRequired">
+                    When Sessions or Users selected, it is required to set filter/drilldown for all of the following dimensions: Actions, Product Categories.
+                </div>
+            </div>
+        </ng-scrollbar>
+    </mat-drawer>
+</mat-drawer-container>

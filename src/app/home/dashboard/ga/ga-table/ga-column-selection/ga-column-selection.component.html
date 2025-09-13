@@ -1,0 +1,44 @@
+<mat-form-field class="add-ga-column-field">
+    <mat-label>Column Name</mat-label>
+    <input
+        type="text"
+        matInput
+        #input
+        [formControl]="columnOptionControl"
+        required
+        [matAutocomplete]="autoGroup"
+    />
+    <mat-autocomplete
+        #autoGroup="matAutocomplete"
+        [displayWith]="displayOption"
+        (optionSelected)="onSelection($event)"
+    >
+        @for (group of columnGroupOptions | async; track group.category) {
+        <mat-optgroup [label]="group.category">
+            @for (option of group.options; track option.apiName) {
+            <mat-option [value]="option">
+                <div class="option-content">
+                    @switch(option.type) { @case('metric') {
+                    <i class="material-symbols-outlined column-type-icon"
+                        >123</i
+                    >
+                    } @case('dimension') {
+                    <i class="material-symbols-outlined column-type-icon"
+                        >abc</i
+                    >
+                    } }
+                    <span> {{ option.uiName }}</span>
+                    <i
+                        class="material-symbols-outlined column-description-tooltip-icon"
+                        [matTooltip]="option.description"
+                        matTooltipPosition="above"
+                    >
+                        help_outline
+                    </i>
+                </div>
+            </mat-option>
+            }
+        </mat-optgroup>
+        }
+    </mat-autocomplete>
+</mat-form-field>

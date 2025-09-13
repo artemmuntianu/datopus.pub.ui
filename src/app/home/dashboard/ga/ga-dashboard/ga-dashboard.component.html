@@ -1,0 +1,63 @@
+<!-- TODO: Think about configuring the view settings, eg: row, width etc... -->
+
+@let defs = gaTableDefinitions();
+@let datasource = datasource$ | async;
+
+@if (datasourceState() === 'empty') {
+    <!-- TODO: Align by center -->
+    <div class="d-flex justify-content-center align-items-center empty-source">
+        <app-redirect-placeholder
+            link="/settings/app/connections/new"
+            description="Please visit the connection setup wizard to add your datasource."
+            linkText="Connect with Google Analytics account"
+            title="No datasource configured?"
+        ></app-redirect-placeholder>
+    </div>
+} @else if (datasourceState() === 'loading') {
+    <mat-progress-spinner mode="indeterminate" [diameter]="20"></mat-progress-spinner>
+} @else {
+    <div class="d-flex align-items-center justify-content-between position-relative g-5 p-10 bg-white border-radius">
+        @let settings = timeService.getSettings();
+
+        <ng-date-range-picker
+            (click)="$event.preventDefault()"
+            class="d-block"
+            style="width: 260px"
+            (onDateSelectionChanged)="timeService.updateGlobalDateRangeTime($event)"
+            [selectedDates]="settings.currentRange"
+            (dateListOptions)="timeService.configureDateListOptions($event)"
+            [minDate]="settings.minDate"
+            [maxDate]="settings.maxDate"
+        ></ng-date-range-picker>
+
+        @if (datasource) {
+            <app-ga-event-tracker [datasource]="datasource"></app-ga-event-tracker>
+        } @else if (datasourceState() === 'loading') {
+            <mat-progress-spinner mode="indeterminate" [diameter]="20"></mat-progress-spinner>
+        }
+    </div>
+    <div class="mb-10"></div>
+    @if (isNewDatasource()) {
+        <div class="row mb-20">
+            <div class="col-12">
+                <app-ga-table [datasource]="datasource" [definition]="defs[3]" />
+            </div>
+        </div>
+    }
+    <div class="d-flex flex-column">
+        <div class="row">
+            <div class="col-6 mb-20">
+                <app-ga-table [datasource]="datasource" [definition]="defs[0]"></app-ga-table>
+            </div>
+            <div class="col-6 mb-20">
+                <app-ga-table [datasource]="datasource" [definition]="defs[1]" />
+            </div>
+        </div>
+        <div class="row pb-15">
+            <div class="col-12">
+                <app-ga-table [datasource]="datasource" [definition]="defs[2]" />
+            </div>
+        </div>
+    </div>
+    
+}

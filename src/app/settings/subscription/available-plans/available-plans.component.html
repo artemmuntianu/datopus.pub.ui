@@ -1,0 +1,36 @@
+<div class="container mt-20 d-flex flex-grow-1 flex-column">
+    <div class="subscription-header">
+        <h4 class="text-center pt-20">Available Plans</h4>
+
+        <div class="toggles">
+            <mat-button-toggle-group hideSingleSelectionIndicator name="planTimeType"
+                class="plan-time-type-toggle-group" (change)="onSubscriptionTimePlanChange($event.value)"
+                [value]="selectedSubscriptionTimePlan()">
+                <mat-button-toggle [value]="billingPeriodENUM.Monthly">Monthly</mat-button-toggle>
+                <mat-button-toggle [value]="billingPeriodENUM.Yearly">Annual (-20%)</mat-button-toggle>
+            </mat-button-toggle-group>
+
+
+            <mat-button-toggle-group hideSingleSelectionIndicator name="currencyType" class="plan-currency-toggle-group"
+                (change)="onCurrencyChange($event.value)" [value]="selectedCurrency()">
+                <mat-button-toggle value="usd">$ USD</mat-button-toggle>
+                <mat-button-toggle value="eur">€ EUR</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </div>
+    @if (loadingData()) {
+    <div class="d-flex justify-content-center align-items-center w-100 flex-grow-1">
+        <mat-progress-spinner mode="indeterminate" [diameter]="50"></mat-progress-spinner>
+    </div>
+    }@else {
+    <div class="grid-layout pricing-list">
+        @for (subCard of subscriptionPlanCards(); track subCard) {
+        <app-pricing-card [subscription]="subscription()" [billingPeriod]="selectedSubscriptionTimePlan()"
+            [currency]="selectedCurrency()" [subPlanCard]="subCard" (changePlan)="navigateToPlanBuilder(subCard.id)"
+            (subscribe)="navigateToPlanBuilder(subCard.id)"
+            (managePlan)="navigateToPlanBuilder(subCard.id)"></app-pricing-card>
+        }
+    </div>
+    }
+
+</div>

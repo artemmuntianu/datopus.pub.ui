@@ -1,0 +1,60 @@
+@use "@angular/material" as mat;
+
+.add-ga-column-field {
+    @include mat.form-field-density(-1);
+    width: 100%;
+    max-width: 100%;
+    min-width: 150px;
+    box-sizing: border-box;
+}
+
+:host::ng-deep {
+    .mat-mdc-form-field-infix {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+.mat-mdc-option {
+    min-height: 1.75rem;
+    font-size: 0.875rem;
+}
+
+.mat-mdc-optgroup::ng-deep {
+    .mat-mdc-optgroup-label {
+        min-height: 1.75rem;
+    }
+}
+
+.option-content {
+    color: var(--blackColor);
+    gap: 5px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.column-type-icon {
+    font-size: 1.4rem;
+}
+
+.column-description-tooltip-icon {
+    font-size: 0.875rem;
+}
+
+@media only screen and (max-width: 567px) {
+    .add-ga-column-field {
+        width: 200px !important;
+    }
+}
+
+@media only screen and (min-width: 568px) and (max-width: 767px) {
+    .add-ga-column-field {
+        width: 300px !important;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .add-ga-column-field {
+        width: 400px !important;
+    }
+}

@@ -1,0 +1,30 @@
+<li class="d-flex align-items-center justify-content-between container">
+    <div class="d-flex align-items-center">
+        <div class="icon">
+            <img [src]="icon()" />
+        </div>
+        <div class="title">
+            <span class="fw-medium d-block">{{ title() }}</span>
+            <div class="d-flex g-5">
+                <ng-container *ngIf="authStep() !== authStepCondition()">
+                    <a [routerLink]="setupLink()" mat-button class="p-0 h-auto text-d">
+                        Finish Setup
+                    </a>
+                    <br />
+                </ng-container>
+                <button (click)="onDisconnect()" mat-button class="p-0 h-auto text-d">
+                    Disconnect
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        @for(property of properties(); track property) {
+            <div class="d-flex g-5 flex-wrap">
+                <span class="fw-bold text-wrap text-truncate">{{ property.key }}:</span>
+                <span class="text-body text-truncate" [attr.title]="property.value">{{ property.value }}</span>
+            </div>
+        }
+    </div>
+</li>

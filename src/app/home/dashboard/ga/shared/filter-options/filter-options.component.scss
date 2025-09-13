@@ -1,0 +1,103 @@
+@use "@angular/material" as mat;
+
+$host-max-width: 100px;
+$filter-field-padding-left: 5px;
+$filter-field-padding-right: 5px;
+$filter-field-option-padding: 5px;
+$filter-field-option-min-height: 30px;
+$filter-field-font-size: 14px;
+$filter-reset-button-size: 20px;
+$filter-reset-button-icon-size: calc($filter-reset-button-size - 5px);
+$filter-reset-button-right: -$filter-field-padding-right;
+
+.ga-filter-field {
+    @include mat.form-field-density(-1);
+    @include mat.form-field-overrides(
+        (
+            container-text-size: $filter-field-font-size,
+            container-height: var(--ga-filter-field-height),
+        )
+    );
+}
+
+.filter-input {
+    text-overflow: ellipsis;
+}
+
+.ga-filter-option::ng-deep {
+    font-size: $filter-field-font-size;
+    padding: $filter-field-option-padding !important;
+    min-height: $filter-field-option-min-height !important;
+
+    .mdc-list-item__primary-text {
+        word-break: break-all !important;
+    }
+}
+
+:host {
+    min-width: $host-max-width;
+}
+
+:host::ng-deep {
+    .mdc-text-field--filled .mdc-floating-label--float-above {
+        transform: translateY(-90%) scale(0.75) !important;
+    }
+
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+        background-color: white !important;
+    }
+
+    .mat-mdc-form-field {
+        height: var(--ga-filter-field-height) !important;
+
+        .mdc-text-field {
+            padding-left: $filter-field-padding-left !important;
+            padding-right: $filter-field-padding-right !important;
+        }
+    }
+    .mat-mdc-form-field-infix {
+        padding-top: 16px !important;
+        padding-bottom: 0 !important;
+        width: 100% !important;
+    }
+
+    .mat-mdc-form-field-flex {
+        height: var(--ga-filter-field-height) !important;
+    }
+
+    // Uncomment if needed: for transparent background on focus
+    // .mat-mdc-form-field-focus-overlay {
+    //     background-color: transparent !important;
+    // }
+}
+
+.reset-filter-icon-button {
+    position: absolute;
+    right: $filter-reset-button-right;
+    top: 0;
+    width: $filter-reset-button-size !important;
+    height: $filter-reset-button-size !important;
+    padding: 0px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 90%;
+
+    & > *[role="img"] {
+        width: $filter-reset-button-icon-size;
+        height: $filter-reset-button-icon-size;
+        font-size: $filter-reset-button-icon-size;
+
+        svg {
+            width: $filter-reset-button-icon-size;
+            height: $filter-reset-button-icon-size;
+        }
+    }
+}
+
+// It fixes the case when selected option is empty string and it doesn't apply correct label animations 
+.empty-option-selected::ng-deep {
+    .mdc-floating-label {
+        transform: translateY(-90%) scale(0.75) !important;
+    }
+}

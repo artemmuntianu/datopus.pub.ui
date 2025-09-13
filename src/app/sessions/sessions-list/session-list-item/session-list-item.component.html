@@ -1,0 +1,77 @@
+@let sessionItem = session()!;
+
+<div
+    class="session-list-item"
+    [ngClass]="{ 'session-list-item--selected': selected() }"
+    (click)="selectSession.emit(sessionItem)"
+>
+    <div class="user-info">
+        <span matTooltip="User Id" class="user-id">{{ sessionItem.userId }}</span>
+        <span matTooltip="{{sessionItem.start}}" class="timestamp">{{ sessionItem.start | timeAgo }}</span>
+    </div>
+
+    <div class="session-stats-row">
+        <span matTooltip="{{sessionItem.userCountry}}" class="emoji">{{ sessionItem.userCountry | countryEmoji }}</span>
+
+        @if (sessionItem.deviceType) {
+            <span class="icon-wrapper">
+                <i
+                    matTooltip="{{ sessionItem.deviceType | titlecase }}"
+                    class="material-symbols-outlined"
+                >
+                    devices
+                </i>
+            </span>
+        }
+
+        @if (sessionItem.deviceBrowser) {
+            <span class="icon-wrapper">
+                <i
+                    matTooltip="{{ sessionItem.deviceBrowser | titlecase }}"
+                    class="material-symbols-outlined"
+                >
+                    {{ sessionItem.deviceBrowser | browserIcon }}
+                </i>
+            </span>
+        }
+
+        @if (sessionItem.deviceOs) {
+            <span class="icon-wrapper">
+                <i
+                    matTooltip="{{ sessionItem.deviceOs | titlecase }}"
+                    class="material-symbols-outlined"
+                >
+                    {{ sessionItem.deviceBrowser | osIcon }}
+                </i>
+            </span>
+        }
+
+        @if (sessionItem.clickCount !== undefined) {
+            <span class="stat-item" matTooltip="Clicks">
+                <span class="icon-wrapper">
+                    <i class="material-symbols-outlined">mouse</i>
+                </span>
+
+                {{ sessionItem.clickCount }}
+            </span>
+        }
+
+        @if (sessionItem.keyPressCount !== undefined) {
+            <span class="stat-item" matTooltip="Key presses">
+                <span class="icon-wrapper">
+                    <i class="material-symbols-outlined">keyboard</i>
+                </span>
+                {{ sessionItem.keyPressCount }}
+            </span>
+        }
+
+        <div matTooltip="Session duration" style="margin-left: auto">
+            {{ sessionItem.end.getTime() - sessionItem.start.getTime() | duration }}
+        </div>
+    </div>
+    @if (sessionItem.startPage) {
+        <div class="domain" matTooltip="Start Page">
+            {{ sessionItem.startPage }}
+        </div>
+    }
+</div>

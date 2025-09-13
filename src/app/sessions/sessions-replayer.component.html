@@ -1,0 +1,17 @@
+<app-sessions-replayer-header (hideInternalTrafficChange)="hideInternalTrafficChange($event)"></app-sessions-replayer-header>
+
+<div class="d-flex g-10 flex-grow-1 mt-20 sessions-replayer-wrapper">
+    <div class="d-flex bg-white border-radius sessions-list-wrapper">
+        <app-sessions-list
+            [loading]="loadingRecordingsList()"
+            [sessionList]="filteredSessionList()"
+            (selectSession)="loadSessionEvents($event)"
+        ></app-sessions-list>
+    </div>
+    <div class="d-flex bg-white player-wrapper border-radius">
+        <app-rrweb-player
+            [events]="rrWebEvents()"
+            [loading]="loadingRecordingEvents()"
+        ></app-rrweb-player>
+    </div>
+</div>

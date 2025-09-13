@@ -1,0 +1,36 @@
+@keyframes pulseSignal {
+    0% {
+        opacity: 1;
+        transform: scale(0.7);
+    }
+    50% {
+        opacity: 0;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(0.7);
+    }
+}
+
+.signal-icon {
+    animation: pulseSignal 4s infinite cubic-bezier(0.3, 1, 0.8, 1);
+}
+
+.counter--warning {
+    border: 1px solid var(--warningColor) !important;
+    color: var(--warningColor) !important;
+    background: floralwhite !important;
+}
+
+.counter {
+    border: 1px solid var(--successColor);
+    color: var(--successColor);
+    background: #2ed47e1a;
+    padding: 1px 5px;
+    display: inline-block;
+    position: relative;
+    border-radius: 2px;
+    font-size: 14px;
+    white-space: nowrap;
+}

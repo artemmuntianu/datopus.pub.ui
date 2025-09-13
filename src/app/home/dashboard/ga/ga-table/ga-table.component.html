@@ -1,0 +1,75 @@
+@let data = tableData();
+
+<app-table-tile
+    [title]="title()"
+    tableClass="dashboard-table"
+    [titleTooltip]="description()"
+    [emptyCellPlaceholders]="emptyCellPlaceholders()"
+    [columns]="data?.columnDefinitions"
+    [dataSource]="data?.rowsData"
+    [sortSettings]="sortSettings()"
+    (sortChange)="applyNewSort($event)"
+>
+    <ng-container slot="header-items">
+        <div class="d-flex align-items-center g-5 header-content-container">
+            <div class="d-flex align-items-center filter-container">
+                <div class="d-flex align-items-center filter-list-container">
+                    @let controls = filterControls();
+                    @if (controls === null) {
+                        <div class="filters-loading-text">Loading...</div>
+                    } @else {
+                        @for (filterControl of controls; track filterControl.name) {
+                            <app-filter-options
+                                (filterChanged)="applyNewFilter(filterControl, $event)"
+                                [filterLabel]="filterControl.filterLabel"
+                                [options]="filterControl.options"
+                                [emptyOptionPlaceholder]="filterControl.emptyValuePlaceHolder"
+                            ></app-filter-options>
+                        }
+                    }
+                </div>
+            </div>
+            <app-enlarge-button />
+        </div>
+    </ng-container>
+
+    <ng-container slot="actions">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <div class="d-flex modify-columns-state-container">
+                <app-ga-table-overlay
+                    triggerName="Add column"
+                    [disabled]="isColumnAdditionDisabled()"
+                    (opened)="addSelection.focus()"
+                    (closed)="addSelection.reset()"
+                >
+                    <app-ga-column-selection
+                        #addSelection
+                        overlay-item
+                        [groups]="addableColumnGroups()"
+                        (optionSelected)="addNewColumn($event)"
+                    ></app-ga-column-selection>
+                </app-ga-table-overlay>
+                <app-ga-table-overlay
+                    triggerName="Remove column"
+                    [disabled]="isColumnRemovalDisabled()"
+                    (opened)="removeSelection.focus()"
+                    (closed)="removeSelection.reset()"
+                >
+                    <app-ga-column-selection
+                        #removeSelection
+                        overlay-item
+                        [groups]="removeableColumnGroups()"
+                        (optionSelected)="removeColumn($event)"
+                    ></app-ga-column-selection>
+                </app-ga-table-overlay>
+            </div>
+            <div class="load-more-action-container">
+                @if (loading() || addingNewColumn()) {
+                    <mat-spinner [diameter]="20"></mat-spinner>
+                } @else if (!allDataLoaded()) {
+                    <button class="load-more-button" (click)="loadMore()">Load more</button>
+                }
+            </div>
+        </div>
+    </ng-container>
+</app-table-tile>

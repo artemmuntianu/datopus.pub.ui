@@ -1,0 +1,33 @@
+@let reportError = error();
+
+@switch (reportError.code) {
+    @case (reportApiErrorCode.DB_ERROR) {
+        <app-redirect-placeholder
+            description="Database is not available right now. Please reload page or contact the administrator."
+            [link]="currentPath"
+            [reload]="true"
+            [title]="reportError.message"
+            linkText="Reload"
+        ></app-redirect-placeholder>
+    }
+
+    @case (reportApiErrorCode.NOT_FOUND) {
+        <app-redirect-placeholder
+            description="Report is not found or doesn't exist. Please reload page or contact the administrator."
+            [link]="currentPath"
+            [reload]="true"
+            [title]="reportError.message"
+            linkText="Reload"
+        ></app-redirect-placeholder>
+    }
+
+    @default {
+        <app-redirect-placeholder
+            description="An unknown error occurred. Please refresh the app or contact the administrator."
+            [link]="currentPath"
+            [reload]="true"
+            [title]="reportError.message"
+            linkText="Reload"
+        ></app-redirect-placeholder>
+    }
+}

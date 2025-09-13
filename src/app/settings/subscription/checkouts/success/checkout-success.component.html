@@ -1,0 +1,58 @@
+<div class="confirm-activation-area">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="daxa-form ml-auto mr-auto border-radius bg-white">
+                @switch (layout()) {
+                    @case ('veryfying_subscription') {
+                        <div class="d-flex align-items-center justify-content-center g-10">
+                            <span>Verifying subscription details...</span>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <mat-progress-spinner
+                                    mode="indeterminate"
+                                    [diameter]="50"
+                                ></mat-progress-spinner>
+                            </div>
+                        </div>
+                    }
+                    @case ('success') {
+                        <div class="title text-center">
+                            <h3>Welcome to Datopus</h3>
+                        </div>
+                        <div class="admin text-center">
+                            <div class="logo position-relative text-success rounded-circle">
+                                <i class="material-symbols-outlined">done</i>
+                            </div>
+                            <span class="d-block fw-medium">
+                                Your subscription has been processed.
+                            </span>
+                            @if (verifySubscriptionSessionResponse(); as details) {
+                                <span class="d-block fw-medium">
+                                    Your subscription status is
+                                    <span class="text-success">{{ details.status }}!</span>
+                                </span>
+                            }
+                            <a routerLink="/" mat-button class="btn mt-20">Go to Dashboard</a>
+                        </div>
+                    }
+                    @case ('error') {
+                        <div class="title text-center">
+                            <h3>Something went wrong</h3>
+                        </div>
+                        <div class="admin text-center">
+                            <div class="logo position-relative text-warning rounded-circle">
+                                <i class="material-symbols-outlined">warning</i>
+                            </div>
+                            <span class="d-block fw-medium">
+                                Your subscription might
+                                <span class="text-warning">not have been activated!</span>
+                            </span>
+                            <span class="d-block fw-medium">
+                                Reason: {{ error }}
+                            </span>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

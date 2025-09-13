@@ -1,0 +1,28 @@
+<div
+    [attr.data-ds-feature]="'Breadcrumb'"
+    class="breadcrumb-card mb-5 mt-5 d-md-flex align-items-center justify-content-between"
+>
+    <ng-container *cdkPortalOutlet></ng-container>
+    <div class="d-flex justify-content-end align-items-center w-100 g-2">
+        <ol class="breadcrumb list-unstyled mt-0 mb-0 pl-0">
+            <li class="breadcrumb-item position-relative">
+                <i class="ri-home-8-line"></i>
+                Home
+            </li>
+            @for (item of path(); track item) {
+                <li class="breadcrumb-item position-relative">
+                    {{ item  | titlecase  }}
+                </li>
+            }
+        </ol>
+        @if (description(); as breadcrumbTooltip) {
+            <i
+                class="material-symbols-outlined breadcrumb-description-tooltip-icon"
+                [matTooltip]="breadcrumbTooltip"
+                matTooltipPosition="above"
+            >
+                info
+            </i>
+        }
+    </div>
+</div>

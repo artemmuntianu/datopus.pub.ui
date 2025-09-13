@@ -1,0 +1,89 @@
+<div class="mb-10">
+    <app-ask-data-header></app-ask-data-header>
+</div>
+
+<div class="page-content" [class.has-messages]="hasMessages()">
+    <div class="content-area">
+        @if (hasMessages()) {
+            <ng-scrollbar class="messages-scrollbar">
+                <div class="messages">
+                    @for (msg of messages(); track $index; let isLast = $last) {
+                        <div
+                            [class.user]="msg.sender === 'user'"
+                            [class.bot]="msg.sender === 'bot'"
+                        >
+                            @if (msg.text === '__loading__') {
+                                <mat-progress-spinner
+                                    mode="indeterminate"
+                                    [diameter]="15"
+                                ></mat-progress-spinner>
+                            } @else if (isLast && msg.sender === 'bot') {
+                                <app-type-writer-text
+                                    [fullText]="msg.text"
+                                    [speedMs]="10"
+                                ></app-type-writer-text>
+                            } @else {
+                                {{ msg.text }}
+                            }
+                        </div>
+                        @if (msg.context) {
+                            @if (msg.context.supported_view_candidates[0] === 'chart') {
+                                <app-chart
+                                    [data]="msg.context.data"
+                                    [x]="msg.context.chart_config?.x_axis"
+                                    [y]="msg.context.chart_config?.y_axis?.[0]"
+                                    [z]="msg.context.chart_config?.z_axis"
+                                    [type]="msg.context.chart_config?.supported_types?.[0] ?? 'bar'"
+                                ></app-chart>
+                            } @else if (msg.context.supported_view_candidates[0] === 'table') {
+                                <app-table-tile
+                                    [enablePagination]="true"
+                                    [enableSort]="true"
+                                    [useBuildInSort]="true"
+                                    tableClass="ask-data-table"
+                                    class="ask-data-table-tile"
+                                    [dataSource]="msg.context.data"
+                                    [columns]="
+                                        msg.context.table_columns | ttColInput: msg.context.schema
+                                    "
+                                ></app-table-tile>
+                            }
+                        }
+                    }
+                </div>
+            </ng-scrollbar>
+        } @else {
+            <div class="no-messages-header">
+                <div class="header">What insights are you looking for?</div>
+            </div>
+        }
+    </div>
+
+    <div class="input-container-wrapper">
+        <div class="input-container">
+            <mat-form-field>
+                <textarea
+                    matInput
+                    (input)="userInput.set($any($event.target).value)"
+                    [value]="userInput()"
+                    cdkTextareaAutosize
+                    placeholder="Ask about trends, comparisons, or specific values"
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="7"
+                    (keydown.enter)="$event.preventDefault();sendMessage();"
+                ></textarea>
+            </mat-form-field>
+            <button
+                mat-fab
+                class="daxa send-message-button"
+                matTooltip="Submit"
+                [disabled]="!userInputTrimmed()"
+                style="margin-bottom: 10px; box-shadow: none; height: 30px; width: 30px"
+                (click)="sendMessage()"
+            >
+                <mat-icon style="width: 21px">send</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+@import './mixins.scss';
+
+.trigger-button {
+    @include link-styled-button;
+    white-space: nowrap;
+
+    i {
+        font-size: var(--fontSize);
+        bottom: -2px;
+        position: relative;
+    }
+}

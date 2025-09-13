@@ -1,0 +1,955 @@
+@import './mixins.scss';
+
+.dashboard-link-list {
+    @include typography-thin-scroll;
+    max-height: 300px;
+    padding: 5px;
+    overflow-y: auto;
+}
+
+.add-new-dashboard-button {
+    &-icon {
+        color: var(--blackColor);
+        font-size: 15px;
+    }
+}
+
+.getting-started-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin: 0 16px;
+
+    .getting-started-header {
+        color: #fff;
+        
+        .progress-text {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+    }
+
+    .progress-bar {
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 0 16px;
+
+        .progress {
+            height: 100%;
+            background: #4CAF50;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+    }
+
+    .getting-started-steps {
+        list-style: none;
+        padding: 0;
+        margin: 8px 0;
+
+        li {
+            a {
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+                padding: 8px 16px;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.05);
+                }
+
+                &.active {
+                    background: rgba(255, 255, 255, 0.1);
+                }
+
+                i {
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}
+
+.sidebar-sub-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .sidemenu-item {
+        position: relative;
+        margin-bottom: 5px;
+
+        &.completed {
+            opacity: 0.8;
+        }
+
+        .sidemenu-link {
+            padding: 8px 15px;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: var(--hover-bg-color);
+            }
+
+            &.disabled {
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
+
+            &.active {
+                background-color: var(--active-bg-color);
+                color: var(--active-text-color);
+            }
+
+            i {
+                font-size: 20px;
+            }
+        }
+    }
+}
+
+.progress-bar {
+    height: 4px;
+    background-color: var(--progress-bg-color);
+    border-radius: 2px;
+    margin: 0 15px;
+
+    .progress {
+        height: 100%;
+        background-color: var(--progress-color);
+        border-radius: 2px;
+        transition: width 0.3s ease;
+    }
+}
+
+.progress-text {
+    font-size: 12px;
+    color: var(--text-secondary-color);
+}
+
+.daxa-progress-badge {
+    font-size: 11px !important;
+    padding: 3px 8px;
+    margin-left: 5px;
+    border-radius: 5px !important;
+    color: var(--whiteColor) !important;
+    background-color: var(--daxaColor) !important;
+    height: 20px !important;
+    width: auto !important;
+    line-height: 14px !important;
+}
+
+::ng-deep {
+    .sidebar-area {
+        --mat-expansion-container-text-line-height: 1.2rem;
+        --mat-expansion-header-text-line-height: 1.2rem;
+        --mat-expansion-header-text-weight: normal;
+        overflow: hidden;
+        position: fixed;
+        height: 100vh;
+        width: 260px;
+        z-index: 222;
+        left: 0;
+        top: 0;
+        border-right: 1px solid rgba(0,0,0,.12);
+        background: var(--secondary-bg);
+
+        .logo {
+            position: absolute;
+            padding: 18px 25px;
+            z-index: 2;
+            right: 0;
+            left: 0;
+            top: 0;
+            background: var(--secondary-bg);
+
+            a {
+                color: var(--blackColor);
+
+                font: {
+                    weight: 700;
+                    size: 24px;
+                }
+
+
+                span {
+                    margin-left: 10px;
+                }
+            }
+        }
+
+        .burger-menu {
+            top: 29px;
+            z-index: 3;
+            right: 25px;
+            cursor: pointer;
+            position: absolute;
+            transition: var(--transition);
+
+            span {
+                height: 1px;
+                width: 25px;
+                margin: 6px 0;
+                display: block;
+                background: var(--blackColor);
+                transition: var(--transition);
+            }
+
+            &.active {
+                opacity: 1;
+                visibility: visible;
+
+                span {
+                    &.top-bar {
+                        transform: rotate(45deg);
+                        transform-origin: 10% 10%;
+                    }
+
+                    &.middle-bar {
+                        opacity: 0;
+                    }
+
+                    &.bottom-bar {
+                        transform: rotate(-45deg);
+                        transform-origin: 10% 90%;
+                        margin-top: 5px;
+                    }
+                }
+            }
+        }
+
+        .ng-scrollbar {
+            height: 100vh;
+        }
+
+        .sidebar-inner {
+            padding: {
+                top: 100px;
+                left: 25px;
+                right: 25px;
+                bottom: 20px;
+            }
+
+            .sidebar-menu {
+                .sub-title {
+                    display: block;
+                    font-size: 14px;
+                    position: relative;
+                    padding-left: 22px;
+                    margin-bottom: 19px;
+
+                    &::before {
+                        left: 0;
+                        top: 50%;
+                        content: '';
+                        height: 1px;
+                        width: 12px;
+                        position: absolute;
+                        background: #a6acbe;
+                        transform: translateY(-50%);
+                    }
+                }
+
+                .mat-accordion {
+                    .mat-expansion-panel {
+                        border-radius: 0;
+                        box-sizing: unset;
+                        margin-bottom: 27px;
+                        color: var(--blackColor);
+                        background-color: transparent;
+
+                        .mat-expansion-panel-header {
+                            transition: var(--transition);
+                            background-color: transparent;
+                            color: var(--blackColor);
+                            position: relative;
+                            font-size: 15px;
+                            display: block;
+                            height: auto;
+
+                            padding: {
+                                right: 40px;
+                                left: 24px;
+                            }
+
+                            i {
+                                transform: translateY(-50%);
+                                position: absolute;
+                                margin-top: -.5px;
+                                font-size: 17px;
+                                line-height: 1;
+                                top: 50%;
+                                left: 0;
+                            }
+
+                            .mat-content {
+                                display: block;
+
+                                .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+                                    display: block;
+                                    margin-right: 0;
+                                    color: var(--blackColor);
+                                    transition: var(--transition);
+                                }
+                            }
+
+                            &.mat-expanded {
+                                color: var(--daxaColor);
+
+                                .mat-content {
+                                    .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+                                        color: var(--daxaColor);
+                                    }
+                                }
+
+                                .mat-expansion-indicator {
+                                    &::before {
+                                        content: "\ea4e";
+                                    }
+                                }
+                            }
+
+                            .mat-expansion-indicator {
+                                transform: translateY(-50%) !important;
+                                margin-top: 1px;
+                                position: absolute;
+                                right: 0;
+                                top: 50%;
+
+                                svg {
+                                    display: none;
+                                }
+
+                                &::before {
+                                    font-size: 15px;
+                                    content: "\ea6e";
+                                    position: relative;
+                                    display: inline-block;
+                                    color: var(--blackColor);
+                                    transition: var(--transition);
+                                    font-family: remixicon !important;
+                                }
+                            }
+
+                            .daxa-badge {
+                                top: 50%;
+                                right: 20px;
+                                width: 17px;
+                                height: 17px;
+                                line-height: 17px;
+                                text-align: center;
+                                border-radius: 50%;
+                                position: absolute;
+                                display: inline-block;
+                                color: var(--daxaColor);
+                                transform: translateY(-50%);
+                                background: rgba(117, 127, 239, 0.1);
+
+                                font: {
+                                    size: 11px;
+                                    weight: 500;
+                                }
+
+
+                                &.two {
+                                    color: #00b69b;
+                                    background: rgba(0, 182, 155, 0.07);
+                                }
+
+                                &.three {
+                                    color: #ee368c;
+                                    background: rgba(238, 54, 140, 0.1);
+                                }
+                            }
+
+                            &:hover {
+                                cursor: default;
+
+                                .mat-content {
+                                    .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+                                        cursor: default;
+                                    }
+                                }
+
+                                .mat-expansion-indicator {
+                                    &::before {
+                                        cursor: default;
+                                    }
+                                }
+                            }
+                        }
+
+                        &:not([class*=mat-elevation-z]) {
+                            box-shadow: unset;
+                        }
+
+                        &:first-of-type {
+                            border-radius: 0;
+                        }
+
+                        .mat-expansion-panel-content {
+                            display: block;
+                        }
+
+                        .mat-expansion-panel-body {
+                            padding: 15px 0 0;
+
+                            .mat-expansion-panel {
+                                margin-bottom: 0;
+                            }
+
+                            .mat-expansion-panel-header {
+                                font-size: 14px;
+                                border-radius: 5px;
+
+                                padding: {
+                                    bottom: 11px;
+                                    left: 32px;
+                                    top: 11px;
+                                }
+
+
+                                &::after {
+                                    top: 50%;
+                                    left: 15px;
+                                    width: 6px;
+                                    height: 6px;
+                                    content: '';
+                                    transition: .3s;
+                                    border-radius: 50%;
+                                    position: absolute;
+                                    transform: translateY(-50%);
+                                    background-color: #adadb9;
+                                }
+
+                                .mat-content {
+                                    .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+                                        color: var(--blackColor) !important;
+                                        transition: var(--transition);
+                                    }
+                                }
+
+                                .mat-expansion-indicator {
+                                    right: 11px;
+
+                                    &::before {
+                                        color: var(--blackColor) !important;
+                                    }
+                                }
+
+                                &.mat-expanded {
+                                    background-color: #e7effd !important;
+                                    color: var(--daxaColor);
+
+                                    .mat-content {
+                                        .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+                                            color: var(--daxaColor) !important;
+                                        }
+                                    }
+
+                                    &::after {
+                                        background-color: var(--daxaColor);
+                                    }
+
+                                    .mat-expansion-indicator {
+                                        &::before {
+                                            color: var(--daxaColor) !important;
+                                        }
+                                    }
+                                }
+
+                                &:hover {
+                                    background-color: #e7effd !important;
+                                    color: var(--daxaColor);
+
+                                    .mat-content {
+                                        .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+                                            color: var(--daxaColor);
+                                        }
+                                    }
+
+                                    &::after {
+                                        background-color: var(--daxaColor);
+                                    }
+                                }
+                            }
+
+                            .mat-expansion-panel-body {
+                                padding: {
+                                    top: 6px;
+                                    left: 20px;
+                                }
+                            }
+
+                            .sidebar-sub-menu {
+                                padding-left: 0;
+                                list-style-type: none;
+
+                                margin: {
+                                    top: 0;
+                                    bottom: 0;
+                                }
+
+                                &.getting-started-steps {
+                                    .sidemenu-item {
+                                        .sidemenu-link {
+                                            padding-left: 10px;
+
+                                            &::after {
+                                                display: none;
+                                            }
+
+                                            i {
+                                                font-size: 18px;
+                                                margin-top: 0;
+                                                transform: none;
+                                            }
+
+                                            &.disabled {
+                                                cursor: default;
+                                                opacity: 0.7;
+                                                pointer-events: none;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .sidemenu-item {
+                                    .sidemenu-link {
+                                        display: block;
+                                        font-size: 15px;
+                                        position: relative;
+                                        border-radius: 5px;
+                                        color: var(--blackColor);
+                                        transition: var(--transition);
+
+                                        padding: {
+                                            bottom: 10.4px;
+                                            top: 10.4px;
+                                            left: 32px;
+                                        }
+
+                                        &::after {
+                                            top: 50%;
+                                            left: 15px;
+                                            width: 6px;
+                                            height: 6px;
+                                            content: '';
+                                            transition: .3s;
+                                            border-radius: 50%;
+                                            position: absolute;
+                                            transform: translateY(-50%);
+                                            background-color: #adadb9;
+                                        }
+
+                                        &:hover, &.active {
+                                            background-color: #e7effd;
+                                            color: var(--daxaColor);
+
+                                            &::after {
+                                                background-color: var(--daxaColor);
+                                            }
+                                        }
+
+                                        .daxa-badge {
+                                            font-size: 11px;
+                                            padding: 3px 8px;
+                                            margin-left: 5px;
+                                            border-radius: 2px;
+                                            color: var(--whiteColor);
+                                            background-color: var(--daxaColor);
+                                        }
+                                    }
+
+                                    .mat-expansion-panel {
+                                        margin-bottom: 0;
+                                    }
+                                }
+                            }
+                        }
+
+                        &:has(> .mat-expansion-panel-content > .mat-expansion-panel-body > .sidebar-sub-menu > .sidemenu-item > .sidemenu-link.active) {
+                            .mat-expansion-panel-header {
+                                color: var(--daxaColor);
+
+                                .mat-content {
+                                    .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+                                        color: var(--daxaColor);
+                                    }
+                                }
+
+                                .mat-expansion-indicator {
+                                    &::before {
+                                        color: var(--daxaColor);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .sidebar-menu-link {
+                        transition: var(--transition);
+                        color: var(--blackColor);
+                        margin-bottom: 27px;
+                        position: relative;
+                        font-size: 15px;
+                        display: block;
+
+                        padding: {
+                            right: 40px;
+                            left: 24px;
+                        }
+
+                        i {
+                            transform: translateY(-50%);
+                            position: absolute;
+                            margin-top: -.5px;
+                            font-size: 17px;
+                            line-height: 1;
+                            top: 50%;
+                            left: 0;
+                        }
+
+                        &:hover, &.active {
+                            color: var(--daxaColor);
+                        }
+                    }
+                }
+            }
+        }
+
+        &.card-borderd-theme {
+            box-shadow: var(--borderBoxShadow) !important;
+        }
+
+        &.hide-sidebar {
+            .burger-menu {
+                display: none !important;
+            }
+        }
+    }
+}
+/* Max width 767px */
+@media only screen and (max-width : 767px) {
+
+    ::ng-deep {
+        .sidebar-area {
+            width: 250px;
+            left: -100%;
+
+            .logo {
+                padding: 20px;
+            }
+
+            .burger-menu {
+                top: 23px;
+                right: 20px;
+            }
+
+            .sidebar-inner {
+                padding: {
+                    top: 80px;
+                    left: 20px;
+                    right: 20px;
+                    bottom: 2px;
+                }
+
+
+                .sidebar-menu {
+                    .sub-title {
+                        font-size: 13px;
+                        padding-left: 18px;
+                        margin-bottom: 16px;
+
+                        &::before {
+                            width: 10px;
+                        }
+                    }
+
+                    .mat-accordion {
+                        .mat-expansion-panel {
+                            margin-bottom: 23px;
+
+                            .mat-expansion-panel-header {
+                                font-size: 14px;
+
+                                padding: {
+                                    right: 50px;
+                                    left: 23px;
+                                }
+
+                                i {
+                                    font-size: 16px;
+                                }
+
+                                .daxa-badge {
+                                    right: 20px;
+                                    width: 16px;
+                                    height: 16px;
+                                    font-size: 10px;
+                                    line-height: 16px;
+                                }
+                            }
+
+                            .mat-expansion-panel-body {
+                                padding: 12px 0 0;
+
+                                .mat-expansion-panel-header {
+                                    font-size: 13px;
+
+                                    padding: {
+                                        bottom: 10px;
+                                        left: 27px;
+                                        top: 10px;
+                                    }
+
+
+                                    &::after {
+                                        left: 13px;
+                                    }
+
+                                    .mat-expansion-indicator {
+                                        right: 10px;
+                                    }
+                                }
+
+                                .mat-expansion-panel-body {
+                                    padding: {
+                                        top: 0;
+                                        left: 12px;
+                                    }
+                                }
+
+                                .sidebar-sub-menu {
+                                    .sidemenu-item {
+                                        .sidemenu-link {
+                                            font-size: 13px;
+
+                                            padding: {
+                                                bottom: 10px;
+                                                left: 27px;
+                                                top: 10px;
+                                            }
+
+
+                                            &::after {
+                                                left: 13px;
+                                            }
+
+                                            .daxa-badge {
+                                                font-size: 10px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .sidebar-menu-link {
+                            margin-bottom: 23px;
+                            font-size: 14px;
+
+                            padding: {
+                                right: 60px;
+                                left: 23px;
+                            }
+
+
+                            i {
+                                font-size: 16px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.active, &.hide-sidebar {
+                left: 0;
+            }
+        }
+    }
+}
+/* Min width 576px to Max width 767px */
+@media only screen and (min-width : 576px) and (max-width : 767px) {
+}
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width : 768px) and (max-width : 991px) {
+
+    ::ng-deep {
+        .sidebar-area {
+            left: -100%;
+
+            &.active, &.hide-sidebar {
+                left: 0;
+            }
+
+            &.right-sidebar {
+                left: auto;
+                right: -100%;
+
+                &.active, &.hide-sidebar {
+                    right: 0;
+                }
+            }
+        }
+    }
+}
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width : 992px) and (max-width : 1199px) {
+
+    ::ng-deep {
+        .sidebar-area {
+            left: -100%;
+
+            &.active, &.hide-sidebar {
+                left: 0;
+            }
+
+            &.right-sidebar {
+                left: auto;
+                right: -100%;
+
+                &.active, &.hide-sidebar {
+                    right: 0;
+                }
+            }
+
+            &.rtl-enabled {
+                right: -100%;
+                left: auto;
+
+                &.right-sidebar {
+                    left: -100%;
+                    right: 0;
+
+                    &.active, &.hide-sidebar {
+                        left: 0;
+                    }
+                }
+
+                &.active, &.hide-sidebar {
+                    left: auto;
+                    right: 0;
+                }
+            }
+        }
+    }
+}
+/* Min width 1200px */
+@media (min-width: 1200px) {
+
+    ::ng-deep {
+        .sidebar-area {
+            &.active, &.hide-sidebar {
+                width: 60px;
+
+                .logo {
+                    padding: {
+                        left: 12px;
+                        right: 12px;
+                    }
+
+
+                    a {
+                        span {
+                            display: none;
+                        }
+                    }
+                }
+
+                .burger-menu {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+
+                .sidebar-inner {
+                    padding: {
+                        top: 80px;
+                        left: 12px;
+                        right: 12px;
+                    }
+
+
+                    .sidebar-menu {
+                        .sub-title {
+                            display: none;
+                        }
+                    }
+
+                    .mat-accordion {
+                        .mat-expansion-panel {
+                            margin-bottom: 5px;
+
+                            .mat-expansion-panel-header {
+                                padding: 0;
+                                width: 36px;
+                                height: 36px;
+
+                                i {
+                                    left: 0;
+                                    right: 0;
+                                    text-align: center;
+                                }
+
+                                .title {
+                                    display: none;
+                                }
+
+                                .mat-expansion-indicator {
+                                    display: none;
+                                }
+
+                                .daxa-badge {
+                                    display: none;
+                                }
+                            }
+
+                            .mat-expansion-panel-content {
+                                display: none;
+                            }
+                        }
+
+                        .sidebar-menu-link {
+                            padding: 0;
+                            width: 36px;
+                            height: 36px;
+                            margin-bottom: 5px;
+
+                            i {
+                                left: 0;
+                                right: 0;
+                                text-align: center;
+                            }
+
+                            .title {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+
+    ::ng-deep {
+        .sidebar-area {
+            width: 240px;
+
+            &.active, &.hide-sidebar {
+                width: 60px;
+
+                &:hover {
+                    width: 240px;
+                }
+            }
+        }
+    }
+}
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {
+}

@@ -1,0 +1,22 @@
+<mat-card
+    class="daxa-card warning-card mb-25 border-radius bg-white border-none d-block text-center"
+>
+    <mat-card-content>
+        <mat-icon class="text-warning">warning</mat-icon>
+        <h3 class="text-dark mb-2 title">
+            {{ title() }}
+        </h3>
+        <p class="text-muted mb-3 description" style="font-size: 16px">
+            {{ description() }}
+        </p>
+        @if (reload()) {
+            <a mat-button class="reload-button" (click)="reloadComponent()">
+                {{ linkText() }}
+            </a>
+        } @else {
+            <a class="btn btn-primary text-d fs-18" [routerLink]="link()">
+                {{ linkText() }}
+            </a>
+        }
+    </mat-card-content>
+</mat-card>

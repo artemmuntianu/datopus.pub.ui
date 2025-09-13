@@ -1,0 +1,382 @@
+<mat-tab-group mat-stretch-tabs="true" mat-align-tabs="center" animationDuration="0ms">
+  <mat-tab label="Segment">
+    <div class="fields mb-20">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Fields</h5>
+        <button mat-icon-button (click)="addNewField()" [disabled]="isAddingNewFieldDisabled()">
+          <span class="material-symbols-outlined">add_box</span>
+        </button>
+      </div>
+      @for (reportsFieldControl of reportsFieldControls(); track reportsFieldControl) {
+        <div class="d-flex justify-content-between align-items-center g-5">
+          <mat-form-field class="mb-10 mt-10">
+            <mat-label>Field</mat-label>
+            <div class="d-flex align-items-center">
+              <mat-select
+                [value]="reportsFieldControl"
+                (selectionChange)="updateReportsFieldControlValue($event, reportsFieldControl)"
+              >
+                <mat-select-trigger>
+                  <div class="d-flex align-items-center">
+                    <i class="material-symbols-outlined column-type-icon">
+                      {{ reportsFieldControl.icon }}
+                    </i>
+                    <div>
+                      {{ reportsFieldControl.label }}
+                    </div>
+                  </div>
+                </mat-select-trigger>
+
+                @if (reportsFieldControl.source) {
+                  <mat-option [value]="reportsFieldControl">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <i class="material-symbols-outlined column-type-icon">
+                        {{ reportsFieldControl.icon }}
+                      </i>
+                      <div>{{ reportsFieldControl.label }}</div>
+                    </div>
+                  </mat-option>
+                }
+                @for (
+                  addControl of addableReportsFieldControls();
+                  track addControl.source?.apiName
+                ) {
+                  <mat-option [value]="addControl">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <i class="material-symbols-outlined column-type-icon">
+                        {{ addControl.icon }}
+                      </i>
+                      <div>{{ addControl.label }}</div>
+                    </div>
+                  </mat-option>
+                }
+              </mat-select>
+            </div>
+          </mat-form-field>
+
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="removeReportsFieldControl(reportsFieldControl)"
+            [disabled]="isFieldRemovalDisabed()"
+            aria-label="Remove"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      }
+    </div>
+    <mat-divider></mat-divider>
+    <div class="filters mt-20">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Filters</h5>
+        <button mat-icon-button (click)="addNewFilter()" [disabled]="isAddingNewFilterDisabled()">
+          <span class="material-symbols-outlined">add_box</span>
+        </button>
+      </div>
+      <div>
+        @for (fControl of reportsFilterControls(); track fControl) {
+          <div class="filter-container">
+            <div
+              *ngIf="!fControl.isEditing"
+              class="filter-preview-container d-flex justify-content-between align-items-center"
+            >
+              <div>
+                @if (fControl.errors.length) {
+                  @for (error of fControl.errors; track error) {
+                    <div class="error text-danger">
+                      {{ error }}
+                    </div>
+                  }
+                } @else {
+                  {{ fControl.label }}
+                }
+              </div>
+              <div class="d-flex">
+                <button
+                  mat-icon-button
+                  class="daxa"
+                  (click)="startFilterEditing(fControl)"
+                  aria-label="Edit"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="removeReportsFilterControl(fControl)"
+                  aria-label="Remove"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+            <ng-container *ngIf="fControl.isEditing">
+              <div class="filter-edit-container">
+                <mat-form-field class="mb-10 mt-10">
+                  <mat-label>Field</mat-label>
+                  <mat-select
+                    [compareWith]="compareDefinitions"
+                    [formControl]="fControl.form.controls.filterTarget"
+                    (selectionChange)="updateFilterTarget(fControl)"
+                  >
+                    <mat-select-trigger>
+                      <div class="d-flex align-items-center">
+                        <i class="material-symbols-outlined column-type-icon">
+                          @if (fControl.form.controls.formType.value === 'numeric') {
+                            123
+                          } @else {
+                            abc
+                          }
+                        </i>
+                        <div>
+                          {{ fControl.form.controls.filterTarget.value?.uiName }}
+                        </div>
+                      </div>
+                    </mat-select-trigger>
+
+                    @for (
+                      targetFieldControl of getAddableFilterTargets(fControl);
+                      track targetFieldControl.source?.apiName
+                    ) {
+                      @if (targetFieldControl.source) {
+                        <mat-option [value]="targetFieldControl.source">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <i class="material-symbols-outlined column-type-icon">
+                              {{ targetFieldControl.icon }}
+                            </i>
+                            <div>
+                              {{ targetFieldControl.label }}
+                            </div>
+                          </div>
+                        </mat-option>
+                      }
+                    }
+                  </mat-select>
+                </mat-form-field>
+                @switch (fControl.form.value.formType) {
+                  @case ('date') {
+                    <ng-container
+                      *ngTemplateOutlet="dateFilterTemplate; context: { fControl: fControl }"
+                    ></ng-container>
+                  }
+                  @case ('string') {
+                    <ng-container
+                      *ngTemplateOutlet="stringFilterTemplate; context: { fControl: fControl }"
+                    ></ng-container>
+                  }
+                  @case ('numeric') {
+                    <ng-container
+                      *ngTemplateOutlet="numericFilterTemplate; context: { fControl: fControl }"
+                    ></ng-container>
+                  }
+                }
+
+                <div class="actions">
+                  <button
+                    mat-button
+                    class="daxa"
+                    (click)="saveFilter(fControl)"
+                    [disabled]="fControl.form.invalid"
+                  >
+                    Save
+                  </button>
+                  <button mat-button (click)="cancelFilterEditing(fControl)">Cancel</button>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        }
+      </div>
+
+      <div class="d-flex justify-content-center mt-20">
+        <button mat-button class="daxa" (click)="applyChanges()">Apply</button>
+      </div>
+    </div>
+  </mat-tab>
+  @if(visualForm) {
+    <mat-tab labelClass="validation-errors">
+      <ng-template mat-tab-label>
+        <div class="d-flex g-5 align-items-center">
+          <span>Visual</span>
+          <mat-icon
+            *ngIf="visualForm.invalid"
+            class="visual-tab-error-icon"
+            matTooltip="Not all required fields are set"
+          >
+            error
+          </mat-icon>
+        </div>
+      </ng-template>
+      <div [formGroup]="visualForm">
+        <mat-form-field class="mb-10 mt-20">
+          <mat-label>Visual</mat-label>
+          <mat-icon *ngIf="select?.value?.icon" matPrefix [ngClass]="'text-d ' + select.value.icon.uiClass">{{select.value.icon.uiName}}</mat-icon>
+          <mat-select #select formControlName="selectedVisual" [compareWith]="compareVisuals">
+            @for (visualKind of visualKinds(); track visualKind) {
+              @for (visualDef of visuals()![visualKind]; track visualDef.subtype) {
+                <mat-option [value]="visualDef">
+                    <mat-icon [ngClass]="'text-d ' + visualDef.icon.uiClass">{{ visualDef.icon.uiName }}</mat-icon>
+                    {{ visualDef.label }}
+                </mat-option>
+              }
+            }
+          </mat-select>
+        </mat-form-field>
+  
+        @if (visualForm.controls.selectedVisual.value?.type === 'diagram') {
+          <mat-form-field class="mb-10">
+            <mat-label>Metric</mat-label>
+            <mat-select formControlName="selectedDiagramMetric" [compareWith]="compareDefinitions">
+              @for (metricOption of metricOptions(); track metricOption?.apiName) {
+                <mat-option [value]="metricOption">{{ metricOption?.uiName }}, sum</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+  
+        @if (visualForm.controls.selectedVisual.value?.type === 'chart') {
+          <mat-form-field class="mb-10 mt-20">
+            <mat-label>Drilldown Dimension</mat-label>
+            <!-- in latest material version this property allows null options but currently it leaves field empty -->
+            <!-- [canSelectNullableOptions]="true"  -->
+            <mat-select
+              formControlName="selectedChartDrilldownDimension"
+              [compareWith]="compareDefinitions"
+            >
+              @for (dimensionOption of chartDimensionOptions(); track dimensionOption?.apiName) {
+                <mat-option [value]="dimensionOption">{{ dimensionOption?.uiName }}</mat-option>
+              }
+              <mat-option [value]="null">-- None --</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="mb-10">
+            <mat-label>Metric</mat-label>
+            <mat-select formControlName="selectedChartMetric" [compareWith]="compareDefinitions">
+              @for (metricOption of metricOptions(); track metricOption?.apiName) {
+                <mat-option [value]="metricOption">{{ metricOption?.uiName }}, sum</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="mb-10">
+            <mat-label>Dimension</mat-label>
+            <mat-select formControlName="selectedChartDimension" [compareWith]="compareDefinitions">
+              @for (dimensionOption of chartDimensionOptions(); track dimensionOption?.apiName) {
+                <mat-option [value]="dimensionOption">{{ dimensionOption?.uiName }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+        @if (
+          visualForm.controls.selectedVisual.value?.type === 'table' ||
+          visualForm.controls.selectedVisual.value?.type === 'chart'
+        ) {
+          <mat-divider></mat-divider>
+          <div class="mt-20">
+            <h5 class="mb-0">Sort</h5>
+            <div formGroupName="selectedSort">
+              <mat-form-field class="mb-10 mt-20">
+                <mat-label>Sort by</mat-label>
+                <mat-select formControlName="sortField">
+                  <mat-select-trigger>
+                    <div class="d-flex align-items-center">
+                      <i class="material-symbols-outlined column-type-icon">
+                        {{ selectedSortReportsFieldControl()?.icon }}
+                      </i>
+                      <div>
+                        {{ selectedSortReportsFieldControl()?.label }}
+                      </div>
+                    </div>
+                  </mat-select-trigger>
+                  @for (
+                    reportsFieldControl of sortOptions();
+                    track reportsFieldControl.source?.apiName
+                  ) {
+                    @if (reportsFieldControl.source) {
+                      <mat-option [value]="reportsFieldControl.source.apiName">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <i class="material-symbols-outlined column-type-icon">
+                            {{ reportsFieldControl.icon }}
+                          </i>
+                          <div>{{ reportsFieldControl.label }}</div>
+                        </div>
+                      </mat-option>
+                    }
+                  }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="mb-10">
+                <mat-label>Sort direction</mat-label>
+                <mat-select formControlName="sortDirection">
+                  <mat-option [value]="true">Descending</mat-option>
+                  <mat-option [value]="false">Ascending</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        }
+      </div>
+  
+      <div class="d-flex justify-content-center mt-20">
+        <button mat-button class="daxa" (click)="applyChanges()">Apply</button>
+      </div>
+    </mat-tab>
+  }
+  
+</mat-tab-group>
+
+<ng-template #stringFilterTemplate let-fControl="fControl">
+  <div [formGroup]="fControl.form">
+    <mat-form-field class="mb-10 mt-10">
+      <mat-label>Filter type</mat-label>
+      <mat-select #select formControlName="filterType">
+        @for (key of filterMatchTypeKeys; track key) {
+          <mat-option [value]="filterMatchType[key]">
+            {{ matchLabels[filterMatchType[key]] }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    @if (select.selected) {
+      <mat-form-field class="mb-10 mt-10">
+        <mat-label>Filter expression</mat-label>
+        <input matInput formControlName="filterValue" />
+      </mat-form-field>
+    }
+  </div>
+</ng-template>
+
+<ng-template #numericFilterTemplate let-fControl="fControl">
+  <div [formGroup]="fControl.form">
+    <mat-form-field class="mb-10 mt-10">
+      <mat-label>Filter type</mat-label>
+      <mat-select formControlName="filterType">
+        @for (key of filterOperationKeys; track key) {
+          <mat-option [value]="filterOperation[key]">
+            {{ operationLabels[key] }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (fControl.form.get('filterType')?.value) {
+      <mat-form-field class="mb-10 mt-10">
+        <mat-label>Filter expression</mat-label>
+        <input matInput pattern="^[0-9]*$" formControlName="filterValue" />
+      </mat-form-field>
+    }
+  </div>
+</ng-template>
+
+<ng-template #dateFilterTemplate let-fControl="fControl">
+  @let settings = timeService.getSettings();
+  <ng-date-range-picker
+    (click)="$event.preventDefault()"
+    class="d-block mb-10"
+    (onDateSelectionChanged)="updateFilterDateRangeValue($event, fControl.form)"
+    [selectedDates]="fControl.form.controls.filterValue.value.dateRange"
+    (dateListOptions)="timeService.configureDateListOptions($event)"
+    [minDate]="settings.minDate"
+    [maxDate]="settings.maxDate"
+  ></ng-date-range-picker>
+</ng-template>

@@ -1,0 +1,48 @@
+<div class="change-email-card">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="mb-25">
+                <label class="main-label d-block lh-1 text-black">
+                    Old Email
+                </label>
+                <mat-form-field>
+                    <input
+                        matInput
+                        type="text"
+                        disabled="true"
+                        [value]="userEmail"
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="mb-25">
+                <label class="main-label d-block lh-1 text-black">
+                    New Email
+                </label>
+                <mat-form-field>
+                    <mat-label> Enter new email </mat-label>
+                    <input matInput [formControl]="emailControl" />
+                </mat-form-field>
+                @if (emailControl.hasError('email') && emailControl.touched) {
+                <div class="error text-danger">Please enter a valid email.</div>
+                } @else if (emailControl.hasError('notMatch')) {
+                <div class="error text-danger">
+                    Please enter a different email.
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="btn-box">
+        <button
+            mat-button
+            (click)="changeEmail()"
+            [disabled]="emailControl.invalid"
+        >
+            Change Email
+        </button>
+    </div>
+</div>

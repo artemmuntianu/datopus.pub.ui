@@ -1,0 +1,40 @@
+<div data-ds-feature="Dashboard">
+    @if (data.org) {
+        @switch (data.org.isDemo) {
+            @case (true) {
+                @let settings = timeService.getSettings();
+                <div class="d-flex align-items-center justify-content-between position-relative g-5 p-10 mb-10 bg-white border-radius">
+                    <ng-date-range-picker
+                        (click)="$event.preventDefault()"
+                        class="d-block"
+                        style="width: 260px"
+                        (onDateSelectionChanged)="timeService.updateGlobalDateRangeTime($event)"
+                        [selectedDates]="settings.currentRange"
+                        (dateListOptions)="timeService.configureDateListOptions($event)"
+                        [minDate]="settings.minDate"
+                        [maxDate]="settings.maxDate"
+                    ></ng-date-range-picker>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <app-features-tile></app-features-tile>
+                    </div>
+                    <div class="col-4">
+                        <app-insights-tile></app-insights-tile>
+                    </div>
+                    <div class="col-4">
+                        <app-dashboard-users-tile></app-dashboard-users-tile>
+                    </div>
+                </div>
+            }
+            @case (false) {
+                <app-ga-dashboard></app-ga-dashboard>
+            }
+        }
+    } @else {
+        <div class="row">
+            <div class="col-6">Loading data...</div>
+            <div class="col-6">Loading data...</div>
+        </div>
+    }
+</div>

@@ -1,0 +1,67 @@
+<div class="confirm-email-change-area">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="daxa-form ml-auto mr-auto border-radius bg-white">
+                <ng-container [ngSwitch]="state">
+                    <ng-container *ngSwitchCase="'inprogress'">
+                        <div class="title text-center">
+                            <h3>Next Step</h3>
+                        </div>
+                        <div class="admin text-center">
+                            <span class="d-block fw-medium">
+                                {{ message }}
+                            </span>
+                        </div>
+                        <button mat-button class="btn" (click)="navigateHome()">
+                            Go to Home
+                        </button>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'success'">
+                        <div class="title text-center">
+                            <h3>Success!</h3>
+                        </div>
+                        <div class="admin text-center">
+                            <div
+                                class="logo position-relative text-success rounded-circle"
+                            >
+                                <i class="material-symbols-outlined"> done </i>
+                            </div>
+                            <span class="d-block fw-medium">
+                                Your email has been
+                                <span class="text-success">updated!</span>
+                            </span>
+                        </div>
+                        <button mat-button class="btn" (click)="navigateHome()">
+                            Go to Home
+                        </button>
+
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'error'">
+                        <div class="title text-center">
+                            <h3>Something went wrong</h3>
+                        </div>
+                        <div class="admin text-center">
+                            <div
+                                class="logo position-relative text-warning rounded-circle"
+                            >
+                                <i class="material-symbols-outlined">
+                                    warning
+                                </i>
+                            </div>
+                            <span class="d-block fw-medium">
+                                Your email was
+                                <span class="text-warning">not updated!</span>
+                            </span>
+                            <span class="d-block fw-medium">
+                                {{ error }}
+                            </span>
+                        </div>
+                        <a routerLink="/auth" mat-button class="btn">
+                            Go to Sign In
+                        </a>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

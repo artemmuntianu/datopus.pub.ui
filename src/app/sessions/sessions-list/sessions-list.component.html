@@ -1,0 +1,25 @@
+<ng-scrollbar orientation="auto">
+    <div>
+        <div class="header">
+            <h6 class="mb-0 p-10">Recordings</h6>
+            <mat-divider></mat-divider>
+        </div>
+        @if (loading()) {
+            <div class="d-flex justify-content-center align-items-center mt-100">
+                <mat-progress-spinner mode="indeterminate" diameter="30"></mat-progress-spinner>
+            </div>
+        } @else {
+            @for (session of sessionList(); track session) {
+                <app-session-list-item
+                    [session]="session"
+                    [selected]="session === selectedRecording()"
+                    (selectSession)="selectedRecording.set(session); selectSession.emit(session)"
+                ></app-session-list-item>
+            } @empty {
+                <div class="d-flex justify-content-center align-items-center p-20">
+                    No recordings found
+                </div>
+            }
+        }
+    </div>
+</ng-scrollbar>

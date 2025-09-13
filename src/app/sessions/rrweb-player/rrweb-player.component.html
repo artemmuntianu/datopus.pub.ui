@@ -1,0 +1,41 @@
+<div class="player-wrapper">
+    @switch (playerState()) {
+        @case ('initial') {
+            <div class="message-container">
+                <h2>Choose a recording to replay</h2>
+            </div>
+        }
+
+        @case ('empty') {
+            <div class="message-container">
+                <h2>No events found in this recording.</h2>
+            </div>
+        }
+
+        @case ('error') {
+            <div class="message-container">
+                <h2>Unable to process this session</h2>
+                <p>The recording might be corrupted or have too few events.</p>
+            </div>
+        }
+
+        @case ('loading') {
+            <div class="message-container">
+                <mat-progress-spinner mode="indeterminate" diameter="30"></mat-progress-spinner>
+            </div>
+        }
+
+        @case ('playing') {
+            
+        }
+
+        @default {
+            <p>Unhandled state: {{ playerState() }}</p>
+        }
+    }
+
+	<div class="player-container-wrapper" [ngClass]="{ 'd-none': playerState() !== 'playing' }">
+	
+		<div #playerContainer class="rrweb-player-container"></div>
+	</div>
+</div>

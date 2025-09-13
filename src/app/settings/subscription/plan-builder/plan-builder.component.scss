@@ -1,0 +1,30 @@
+@import './mixins.scss';
+
+.how-decide-button {
+    @include link-styled-button;
+    white-space: nowrap;
+}
+
+:host {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.half-width {
+    width: 50%;
+}
+
+.navigation-arrow-icon {
+    height: 18px;
+    width: 18px;
+    font-size: 18px;
+}
+
+.navigation-stroked-button {
+    border: 1px solid var(--daxaColor);
+}
+
+.navigation-button {
+    width: fit-content;
+}

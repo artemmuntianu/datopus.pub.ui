@@ -1,0 +1,12 @@
+<div class="getting-started-page bg-white border-radius p-10">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>{{ title }}</h1>
+        <button *ngIf="showCompleteBtn" mat-flat-button class="daxa" (click)="onDone()">Mark as Complete</button>
+    </div>
+    <hr />
+    <ng-content></ng-content>
+    <hr />
+    <div class="d-flex justify-content-center align-items-center mb-4">
+        <button *ngIf="showCompleteBtn" mat-flat-button class="daxa" (click)="onDone()">Mark as Complete</button>
+    </div>
+</div>

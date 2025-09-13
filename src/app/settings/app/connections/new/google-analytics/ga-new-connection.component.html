@@ -1,0 +1,215 @@
+<mat-stepper #stepper orientation="horizontal" [linear]="true" class="p-10">
+    <mat-step label="Authorization" editable="false">
+        <div *ngIf="curStep == 1" class="mb-10">
+            <div class="col-6 m-auto">
+                <p class="text-black text-center" style="font-size: 16px">
+                    Authorize access to your Google Analytics data that will be associated with your
+                    organization.
+                </p>
+                <div class="d-flex justify-content-center">
+                    <button (click)="step1_onNextClick()" mat-button class="btn w-auto">
+                        Authorize
+                    </button>
+                </div>
+            </div>
+        </div>
+    </mat-step>
+    <mat-step label="Datasource" editable="false">
+        <div *ngIf="curStep == 2" class="mb-10" style="font-size: 16px">
+            @if (obtainingProperties()) {
+                <div class="d-flex justify-content-center">
+                    <mat-progress-spinner mode="indeterminate" [diameter]="50"></mat-progress-spinner>
+                </div>
+                
+            } @else if (data.gaProperties.length === 0) {
+                <mat-card class="empty-properties-card">
+                    <mat-card-content class="card-content">
+                        <mat-icon class="warning-icon">warning</mat-icon>
+
+                        <h3 class="card-title">No Google Analytics Data Source Found</h3>
+
+                        <p class="card-text">
+                            Your account is missing the necessary setup to continue. This could be due to:
+                        </p>
+
+                        <ul class="card-list">
+                            <li>
+                                You haven't set up Google Analytics yet.
+                                <ul class="card-list">
+                                    <li>Follow <a href="https://app.datopus.io/getting-started/setup-analytics" target="_blank" class="text-d">this guide</a> to set up Google Analytics and refresh this page once done.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                Your current account does not have access to the required data.
+                                <ul class="card-list">
+                                    <li>Try signing in with another account.</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="button-container">
+                            <button
+                                (click)="selectAnotherAccount()"
+                                mat-flat-button
+                                class="primary-button"
+                            >
+                                Select Another Account
+                            </button>
+
+                            <button
+                                (click)="refreshPage()"
+                                mat-stroked-button
+                                class="secondary-button"
+                            >
+                                Refresh Page
+                            </button>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            } @else {
+                <div class="col-6 m-auto">
+                    <p class="text-black" style="font-size: 16px">
+                        1. Select your Google Analytics property.
+                    </p>
+                    <p>
+                        <mat-form-field>
+                            <mat-label>Google Analytics property</mat-label>
+                            <mat-select
+                                [(ngModel)]="selectedGaProperty"
+                                [disabled]="!data.gaProperties.length"
+                            >
+                                <mat-option *ngFor="let x of data.gaProperties" [value]="x">
+                                    {{ x.displayName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </p>
+                    <p class="text-black" style="font-size: 16px">
+                        2. Enter a datasource identifier. Usually, it is your domain name.
+                    </p>
+                    <p>
+                        <mat-form-field>
+                            <mat-label>Datasource Identifier</mat-label>
+                            <input
+                                matInput
+                                [(ngModel)]="datasourceIdentifier"
+                                placeholder="Your domain name"
+                            />
+                        </mat-form-field>
+                    </p>
+                    <div class="text-black">
+                        <div class="mb-5">
+                            3. Install the code snippet to let it track all user actions for you.
+                        </div>
+                        <div class="alert text-md">
+                            <div class="mb-5">
+                                Please copy and paste this code into your
+                                <code>&lt;head&gt;</code>
+                                tag.
+                            </div>
+                            <div class="mb-5">
+                                If you're using Google Tag Manager, create a new Custom HTML Tag and
+                                insert the code inside it.
+                            </div>
+                            <div class="mb-5">
+                                For advanced installation options, refer to the
+                                <a
+                                    href="https://docs.datopus.io/quickstart"
+                                    target="_blank" class="text-d"
+                                    class="text-d"
+                                >
+                                    documentation
+                                </a>
+                                .
+                            </div>
+                        </div>
+                    </div>
+                    <p>
+                        <app-tracker-code-snippet [identifier]="datasourceIdentifier" ></app-tracker-code-snippet>
+                    </p>
+                    <div class="d-flex justify-content-center">
+                        <button
+                            (click)="step2_onNextClick()"
+                            mat-button
+                            class="btn w-auto"
+                            [disabled]="!selectedGaProperty || !datasourceIdentifier"
+                        >
+                            Next
+                        </button>
+                    </div>
+                    <div class="alert text-md">
+                        Not ready to install the script just yet? Explore Datopus's capabilities
+                        through our
+                        <a
+                            href="https://app.datopus.io/demo-use-cases"
+                            target="_blank" class="text-d"
+                            class="text-d"
+                        >
+                            interactive demo
+                        </a>
+                        .
+                    </div>
+                </div>
+            }
+        </div>
+    </mat-step>
+    <mat-step label="Dimensions" editable="false">
+        <div *ngIf="curStep == 3" class="mb-10">
+            <div class="m-auto max-w-700">
+                <p class="text-black">
+                    Please confirm adding new custom dimensions to your GA Property.
+                </p>
+                <div class="table-responsive mb-15">
+                    <table mat-table [dataSource]="step3_tableDatasource" class="bg-white">
+                        <ng-container matColumnDef="exists">
+                            <th mat-header-cell *matHeaderCellDef>Exists?</th>
+                            <td mat-cell *matCellDef="let x">{{ x.exists ? 'Yes' : 'No' }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef>Name</th>
+                            <td mat-cell *matCellDef="let x">{{ x.parameterName }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="displayName">
+                            <th mat-header-cell *matHeaderCellDef>Display Name</th>
+                            <td mat-cell *matCellDef="let x">{{ x.displayName }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef>Description</th>
+                            <td mat-cell *matCellDef="let x">{{ x.description }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="scope">
+                            <th mat-header-cell *matHeaderCellDef>Scope</th>
+                            <td mat-cell *matCellDef="let x">{{ x.scope }}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="step3_tableColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: step3_tableColumns"></tr>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button (click)="step3_onNextClick()" mat-button class="btn w-auto">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </mat-step>
+    <mat-step label="Finish" editable="false">
+        <div *ngIf="curStep == 4" class="confirm-area">
+            <div class="d-table">
+                <div class="d-table-cell">
+                    <div class="d-form m-auto border-radius bg-white">
+                        <div class="title text-center">
+                            <p class="m-auto text-success">Congrats! Your Google Analytics has been connected successfully.</p>
+                        </div>
+                        <div class="admin text-center">
+                            <div class="logo position-relative text-success rounded-circle">
+                                <i class="material-symbols-outlined">done</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-step>
+</mat-stepper>

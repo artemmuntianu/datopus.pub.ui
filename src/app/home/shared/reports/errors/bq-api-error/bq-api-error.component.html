@@ -1,0 +1,106 @@
+@let bqError = error();
+
+@switch (bqError.code) {
+    @case (BQApiErrorCode.EXPIRED_REFRESH_TOKEN) {
+        <app-redirect-placeholder
+            description="Your refresh token has expired. Please Sign In or visit Connections and re-add your datasource."
+            [link]="currentPath"
+            [reload]="true"
+            [title]="bqError.message"
+            linkText="Sign In"
+        ></app-redirect-placeholder>
+    }
+
+    @case (BQApiErrorCode.FIELD_COUNT_MISMATCH) {
+        <app-redirect-placeholder
+            description="Field count mismatch detected. Please try again or contact the administrator."
+            [link]="currentPath"
+            [reload]="true"
+            [title]="bqError.message"
+            linkText="Reload"
+        ></app-redirect-placeholder>
+    }
+
+    @case (BQApiErrorCode.INVALID_ACCOUNT) {
+        <app-redirect-placeholder
+            description="The selected account does not have an assigned project or dataset ID. Please try a different account, reset your connection, or contact the administrator."
+            [link]="currentPath"
+            [reload]="true"
+            [title]="bqError.message"
+            linkText="Reload"
+        ></app-redirect-placeholder>
+    }
+
+    @case (BQApiErrorCode.NO_ACCESS_TOKEN) {
+        <app-redirect-placeholder
+            description="Authorization data is invalid or missing. Please refresh your connections or contact the administrator."
+            link="/settings/app/connections"
+            [title]="bqError.message"
+            linkText="Go to Connections"
+        ></app-redirect-placeholder>
+    }
+
+    @case (BQApiErrorCode.NO_DATASET) {
+        <app-redirect-placeholder
+            description="Dataset not found. Please check your connections or contact the administrator."
+            link="/settings/app/connections"
+            [title]="bqError.message"
+            linkText="Go to Connections"
+        ></app-redirect-placeholder>
+    }
+
+    @case (BQApiErrorCode.NO_DATASOURCE) {
+        <app-redirect-placeholder
+            description="Datasource not found. Please check your connections or contact the administrator."
+            link="/settings/app/connections"
+            [title]="bqError.message"
+            linkText="Go to Connections"
+        ></app-redirect-placeholder>
+    }
+
+    @case (BQApiErrorCode.NO_PROJECT_ID) {
+        <app-redirect-placeholder
+            description="Project ID not found. Please check your connections or contact the administrator."
+            link="/settings/app/connections"
+            [title]="bqError.message"
+            linkText="Go to Connections"
+        ></app-redirect-placeholder>
+    }
+
+    @case (BQApiErrorCode.FORBIDDEN) {
+        <app-redirect-placeholder
+            description="Your connection lacks permission to access the requested resource. Please refresh your connections or contact the administrator."
+            link="/settings/app/connections"
+            [title]="bqError.message"
+            linkText="Go to Connections"
+        ></app-redirect-placeholder>
+    }
+
+    @case (BQApiErrorCode.UNAUTHORIZED) {
+        <app-redirect-placeholder
+            description="Your connection lacks permission to access the requested resource. Please refresh your connections or contact the administrator."
+            link="/settings/app/connections"
+            [title]="bqError.message"
+            linkText="Go to Connections"
+        ></app-redirect-placeholder>
+    }
+
+    @case (BQApiErrorCode.HTTP_ERROR) {
+        <app-redirect-placeholder
+            description="There might be an issue with your internet connection or our servers. Please refresh the app or contact the administrator."
+            [link]="currentPath"
+            [reload]="true"
+            [title]="bqError.message"
+            linkText="Reload"
+        ></app-redirect-placeholder>
+    }
+    @default {
+        <app-redirect-placeholder
+            description="An unknown error occurred. Please refresh the app or contact the administrator."
+            [link]="currentPath"
+            [reload]="true"
+            [title]="bqError.message"
+            linkText="Reload"
+        ></app-redirect-placeholder>
+    }
+}

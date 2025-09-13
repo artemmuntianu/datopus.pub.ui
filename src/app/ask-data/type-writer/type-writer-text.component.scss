@@ -1,0 +1,27 @@
+:host {
+    display: inline;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.cursor {
+    display: inline-block;
+    background-color: currentColor;
+    opacity: 1;
+    width: 2px;
+    animation: none;
+
+    &.blinking {
+        animation: blink 1s step-end infinite;
+    }
+}
+
+@keyframes blink {
+    from,
+    to {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
